@@ -1,56 +1,121 @@
+/* Общий стиль страницы */
 body {
   font-family: sans-serif;
-  text-align: center;
-  padding: 20px;
   background-color: #f8f8f8;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
 }
 
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* Стили изображения */
 .cover {
-  width:900px !important;
-  height: auto !important;
-  margin: 20px auto !important;
-  display: block !important;
-  max-width: 90% !important;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;          /* Квадратное соотношение */
+  object-fit: cover;            /* Заполняет без искажения */
+  border-radius: 16px;          /* Скругление углов */
+  display: block;
+  margin: 0 auto 20px auto;
 }
 
-#player, .plyr {
-  max-width: 1000px !important;
-  width: 100% !important;
-  margin: 20px auto !important;
-  display: block !important;
-}
-/* Увеличим размер кнопок */
-.plyr__controls button {
-  width: 50px;
-  height: 50px;
-  font-size: 28px;
+/* Название и зал под картинкой */
+.audio-info {
+  margin-bottom: 20px;
 }
 
-/* Увеличим иконки внутри кнопок */
-.plyr__controls button svg {
-  width: 28px;
-  height: 28px;
+.audio-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0a0a0a;
+  text-decoration: none;
 }
 
-/* Увеличим размер прогресс-бара */
-.plyr__progress {
-  height: 10px;
-  border-radius: 5px;
+.audio-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
 }
 
-/* Увеличим высоту плеера */
+/* Плеер */
+#player,
 .plyr {
-  font-size: 18px; /* увеличит размеры текста */
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
+/* Центрируем кнопки */
+.plyr__controls {
+  justify-content: center !important;
+}
 
+/* Стили управления плеером */
+.plyr__controls button {
+  width: 56px;
+  height: 56px;
+  font-size: 24px;
+  margin: 0 12px;
+  background-color: #21242a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-@media (max-width: 980px) {
+/* Иконки внутри кнопок */
+.plyr__controls button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Прогресс-бар */
+.plyr__progress {
+  height: 6px;
+  border-radius: 3px;
+  margin: 10px 0;
+}
+
+/* Время начала и конца */
+.plyr__time {
+  font-size: 14px;
+  color: #0a0a0a;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
   .cover {
-    width: 90% !important;
+    aspect-ratio: 1 / 1;
+    max-width: 90%;
   }
 
-  #player, .plyr {
-    max-width: 100% !important;
+  .audio-title {
+    font-size: 15px;
+  }
+
+  .audio-subtitle {
+    font-size: 13px;
+  }
+
+  .plyr__controls button {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .plyr__controls button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .plyr__progress {
+    height: 5px;
   }
 }
