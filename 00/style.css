@@ -48,66 +48,82 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
+  font-size: 14px; /* уменьшили размер шрифта для компактности */
 }
 
-/* Центрируем контролы */
+/* Центрируем контролы, гибкий лэйаут */
 .plyr__controls {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-wrap: nowrap; /* запрет обтекания, для контроля */
+  gap: 12px;
   padding: 10px 0;
+  overflow: hidden; /* чтоб тайм-бар не вылазил */
 }
 
-/* Убираем стандартную обводку */
+/* Кнопки - сброс стилей */
 .plyr__controls button {
   background: none;
   border: none;
   padding: 0;
+  flex-shrink: 0; /* чтобы кнопки не сжимались */
 }
 
-/* Все кнопки */
+/* Иконки кнопок */
 .plyr__controls button svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
-/* СТИЛИ для PLAY-кнопки */
+/* PLAY кнопка */
 .plyr__controls .plyr__control--overlaid,
 .plyr__controls .plyr__control[data-plyr="play"] {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   background-color: #21242a;
   border-radius: 50%;
   display: flex !important;
   align-items: center;
   justify-content: center;
-  margin: 0 10px;
+  margin: 0 8px;
+  flex-shrink: 0;
 }
 
 .plyr__controls .plyr__control[data-plyr="play"] svg {
   fill: white;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
 }
 
-/* Прогресс и тайминг */
+/* Прогресс бар (тайм-бар) */
 .plyr__progress {
-  height: 5px;
-  border-radius: 2px;
-  margin: 0px 0;
+  flex-grow: 1; /* чтобы растягивался на всю доступную ширину */
+  min-width: 80px;
+  height: 6px;
+  border-radius: 3px;
+  margin: 0 8px;
+  cursor: pointer;
 }
 
+/* Тайминги (текущее и общее время) */
 .plyr__time {
-  font-size: 14px;
+  font-size: 13px;
   color: #0a0a0a;
+  flex-shrink: 0;
+  width: 40px;
+  text-align: center;
+  user-select: none;
 }
 
-/* Контейнер прогресса и времени */
-.plyr__time--current,
+/* Отступы для текущего и общего времени */
+.plyr__time--current {
+  margin-right: 6px;
+}
+
 .plyr__time--duration {
-  margin: 0 5px;
+  margin-left: 6px;
 }
 
 /* Адаптивность */
@@ -117,17 +133,30 @@ body {
   }
 
   .plyr__controls {
-    flex-wrap: wrap;
-    gap: 16px;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 6px 0;
   }
 
   .plyr__controls .plyr__control[data-plyr="play"] {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
+    margin: 0 6px;
   }
 
   .plyr__controls .plyr__control[data-plyr="play"] svg {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .plyr__progress {
+    min-width: 60px;
+    height: 5px;
+    margin: 0 6px;
+  }
+
+  .plyr__time {
+    font-size: 12px;
+    width: 30px;
   }
 }
