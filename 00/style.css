@@ -1,4 +1,3 @@
-/* Общий стиль страницы */
 body {
   font-family: sans-serif;
   background-color: #f8f8f8;
@@ -13,18 +12,18 @@ body {
   padding: 10px;
 }
 
-/* Стили изображения */
+/* Картинка */
 .cover {
   width: 100%;
   max-width: 100%;
-  aspect-ratio: 1 / 1;          /* Квадратное соотношение */
-  object-fit: cover;            /* Заполняет без искажения */
-  border-radius: 16px;          /* Скругление углов */
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
   display: block;
   margin: 0 auto 20px auto;
 }
 
-/* Название и зал под картинкой */
+/* Название и подзаголовок */
 .audio-info {
   margin-bottom: 20px;
 }
@@ -43,7 +42,7 @@ body {
   margin-top: 4px;
 }
 
-/* Плеер */
+/* Контейнер плеера */
 #player,
 .plyr {
   width: 100%;
@@ -51,71 +50,84 @@ body {
   margin: 0 auto;
 }
 
-/* Центрируем кнопки */
+/* Центрируем контролы */
 .plyr__controls {
+  display: flex !important;
   justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px 0;
 }
 
-/* Стили управления плеером */
+/* Убираем стандартную обводку */
 .plyr__controls button {
-  width: 56px;
-  height: 56px;
-  font-size: 24px;
-  margin: 0 12px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Все кнопки */
+.plyr__controls button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* СТИЛИ для PLAY-кнопки */
+.plyr__controls .plyr__control--overlaid,
+.plyr__controls .plyr__control[data-plyr="play"] {
+  width: 64px;
+  height: 64px;
   background-color: #21242a;
-  color: white;
   border-radius: 50%;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
+  margin: 0 10px;
 }
 
-/* Иконки внутри кнопок */
-.plyr__controls button svg {
-  width: 20px;
-  height: 20px;
+.plyr__controls .plyr__control[data-plyr="play"] svg {
+  fill: white;
+  width: 28px;
+  height: 28px;
 }
 
-/* Прогресс-бар */
+/* Прогресс и тайминг */
 .plyr__progress {
-  height: 6px;
-  border-radius: 3px;
+  height: 4px;
+  border-radius: 2px;
   margin: 10px 0;
 }
 
-/* Время начала и конца */
 .plyr__time {
   font-size: 14px;
   color: #0a0a0a;
 }
 
-/* Адаптивность для мобильных */
+/* Контейнер прогресса и времени */
+.plyr__time--current,
+.plyr__time--duration {
+  margin: 0 8px;
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
   .cover {
-    aspect-ratio: 1 / 1;
     max-width: 90%;
   }
 
-  .audio-title {
-    font-size: 15px;
+  .plyr__controls {
+    flex-wrap: wrap;
+    gap: 16px;
   }
 
-  .audio-subtitle {
-    font-size: 13px;
+  .plyr__controls .plyr__control[data-plyr="play"] {
+    width: 56px;
+    height: 56px;
   }
 
-  .plyr__controls button {
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-  }
-
-  .plyr__controls button svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .plyr__progress {
-    height: 5px;
+  .plyr__controls .plyr__control[data-plyr="play"] svg {
+    width: 24px;
+    height: 24px;
   }
 }
