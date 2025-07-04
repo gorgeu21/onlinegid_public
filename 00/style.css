@@ -159,4 +159,23 @@ body {
     font-size: 12px;
     width: 30px;
   }
+  
+  /* Исправление для прогресс-бара */
+.plyr__controls {
+  overflow: visible; /* Удаляем обрезание */
+  gap: 12px;
+}
+
+.plyr__progress {
+  width: 100%; /* Растягиваем на всю ширину */
+  margin: 0 8px;
+}
+
+/* Стили для нового заголовка */
+.page-title {
+  font-size: 24px;
+  margin: 20px 0;
+  text-align: center;
+  color: #0a0a0a;
+}
 }
