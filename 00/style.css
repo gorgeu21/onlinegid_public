@@ -94,9 +94,9 @@ body {
 
 /* Прогресс и тайминг */
 .plyr__progress {
-  height: 4px;
+  height: 10px;
   border-radius: 2px;
-  margin: 10px 0;
+  margin: 0px 0;
 }
 
 .plyr__time {
