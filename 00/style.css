@@ -1,56 +1,84 @@
 body {
-  font-family: sans-serif;
-  text-align: center;
-  padding: 20px;
-  background-color: #f8f8f8;
+  font-family: sans-serif; /* Шрифт интерфейса */
+  text-align: center;      /* Центровка текста */
+  padding: 20px;           /* Внутренние отступы */
+  background-color: #f8f8f8; /* Цвет фона страницы */
 }
 
+/* Обложка (картина) */
 .cover {
-  width:900px !important;
-  height: auto !important;
-  margin: 20px auto !important;
-  display: block !important;
-  max-width: 90% !important;
+  width: 100%;
+  max-width: 400px;          /* Ограничиваем максимальную ширину */
+  height: auto;
+  margin: 20px auto;
+  display: block;
+  border-radius: 12px;       /* Скругление углов как в макете */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Легкая тень */
 }
 
+/* Контейнер плеера */
 #player, .plyr {
-  max-width: 1000px !important;
-  width: 100% !important;
-  margin: 20px auto !important;
-  display: block !important;
+  max-width: 400px;          /* Стильный и компактный плеер */
+  width: 100%;
+  margin: 20px auto;
+  background-color: #f7f7f9; /* Светло-серый фон */
+  border-radius: 16px;       /* Скруглённые углы */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Эффект приподнятости */
+  padding: 20px 0;
 }
-/* Увеличим размер кнопок */
+
+/* Размеры кнопок управления */
 .plyr__controls button {
-  width: 50px;
-  height: 50px;
-  font-size: 28px;
+  width: 48px;           /* Размеры кнопки */
+  height: 48px;
+  font-size: 24px;       /* Размер иконки внутри */
+  border-radius: 50%;    /* Круглые кнопки */
 }
 
-/* Увеличим иконки внутри кнопок */
+/* Иконки внутри кнопок */
 .plyr__controls button svg {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
 }
 
-/* Увеличим размер прогресс-бара */
+/* Прогресс-бар */
 .plyr__progress {
-  height: 10px;
-  border-radius: 5px;
+  height: 4px;            /* Более тонкий прогресс-бар */
+  border-radius: 2px;
+  margin-top: 8px;
 }
 
-/* Увеличим высоту плеера */
+/* Общий масштаб текста */
 .plyr {
-  font-size: 18px; /* увеличит размеры текста */
+  font-size: 16px;
 }
 
+/* Текст над плеером: название и зал */
+.audio-info {
+  margin-top: 10px;
+}
 
+.audio-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f62fe; /* Синяя активная ссылка */
+  text-decoration: none;
+  margin-bottom: 4px;
+  display: inline-block;
+}
 
+.audio-subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Медиа-запрос для адаптива */
 @media (max-width: 980px) {
   .cover {
-    width: 90% !important;
+    width: 90%;
   }
 
   #player, .plyr {
-    max-width: 100% !important;
+    max-width: 95%;
   }
 }
