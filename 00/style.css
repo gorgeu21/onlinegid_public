@@ -1,84 +1,81 @@
-body {
-  font-family: sans-serif; /* Шрифт интерфейса */
-  text-align: center;      /* Центровка текста */
-  padding: 20px;           /* Внутренние отступы */
-  background-color: #f8f8f8; /* Цвет фона страницы */
+/* Центрируем содержимое */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Обложка (картина) */
-.cover {
-  width: 100%;
-  max-width: 400px;          /* Ограничиваем максимальную ширину */
-  height: auto;
-  margin: 20px auto;
-  display: block;
-  border-radius: 12px;       /* Скругление углов как в макете */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Легкая тень */
-}
-
-/* Контейнер плеера */
+/* Стили плеера */
 #player, .plyr {
-  max-width: 400px;          /* Стильный и компактный плеер */
+  max-width: 400px;
   width: 100%;
   margin: 20px auto;
-  background-color: #f7f7f9; /* Светло-серый фон */
-  border-radius: 16px;       /* Скруглённые углы */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Эффект приподнятости */
-  padding: 20px 0;
+  background: none;         /* Убираем фон */
+  box-shadow: none;         /* Убираем тень */
+  padding: 0;
 }
 
-/* Размеры кнопок управления */
-.plyr__controls button {
-  width: 48px;           /* Размеры кнопки */
-  height: 48px;
-  font-size: 24px;       /* Размер иконки внутри */
-  border-radius: 50%;    /* Круглые кнопки */
+/* Контейнер кнопок */
+.plyr__controls {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 30px; /* Расстояние между кнопками */
+  padding-bottom: 10px;
+}
+
+/* Центральная кнопка Play/Pause */
+.plyr__controls button.plyr__control--overlaid,
+.plyr__controls button[data-plyr="play"],
+.plyr__controls button[data-plyr="pause"] {
+  background-color: #1f2025;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+}
+
+/* Стрелки назад/вперёд */
+.plyr__controls button[data-plyr="rewind"],
+.plyr__controls button[data-plyr="fast-forward"] {
+  background: none;
+  width: 36px;
+  height: 36px;
 }
 
 /* Иконки внутри кнопок */
 .plyr__controls button svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+/* Таймеры (время) */
+.plyr__time {
+  font-size: 14px;
+  color: #111;
 }
 
 /* Прогресс-бар */
 .plyr__progress {
-  height: 4px;            /* Более тонкий прогресс-бар */
-  border-radius: 2px;
-  margin-top: 8px;
+  height: 2px !important;
+  border-radius: 1px;
+  margin: 0 8px;
 }
 
-/* Общий масштаб текста */
-.plyr {
-  font-size: 16px;
+/* Убираем фон шкалы загрузки */
+.plyr__progress__buffer {
+  background: #ccc;
 }
 
-/* Текст над плеером: название и зал */
-.audio-info {
-  margin-top: 10px;
+.plyr__progress__played {
+  background: #111; /* Цвет активной полосы */
 }
 
-.audio-title {
-  font-size: 16px;
-  font-weight: 500;
-  color: #0f62fe; /* Синяя активная ссылка */
-  text-decoration: none;
-  margin-bottom: 4px;
-  display: inline-block;
-}
-
-.audio-subtitle {
-  font-size: 14px;
-  color: #666;
-}
-
-/* Медиа-запрос для адаптива */
-@media (max-width: 980px) {
-  .cover {
-    width: 90%;
-  }
-
-  #player, .plyr {
-    max-width: 95%;
-  }
+/* Убираем лишние кнопки (если есть) */
+.plyr__volume,
+.plyr__menu,
+.plyr__settings,
+.plyr__captions {
+  display: none !important;
 }
