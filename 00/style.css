@@ -1,81 +1,56 @@
-/* Центрируем содержимое */
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+body {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f8f8;
 }
 
-/* Стили плеера */
+.cover {
+  width:900px !important;
+  height: auto !important;
+  margin: 20px auto !important;
+  display: block !important;
+  max-width: 90% !important;
+}
+
 #player, .plyr {
-  max-width: 400px;
-  width: 100%;
-  margin: 20px auto;
-  background: none;         /* Убираем фон */
-  box-shadow: none;         /* Убираем тень */
-  padding: 0;
+  max-width: 1000px !important;
+  width: 100% !important;
+  margin: 20px auto !important;
+  display: block !important;
+}
+/* Увеличим размер кнопок */
+.plyr__controls button {
+  width: 50px;
+  height: 50px;
+  font-size: 28px;
 }
 
-/* Контейнер кнопок */
-.plyr__controls {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 30px; /* Расстояние между кнопками */
-  padding-bottom: 10px;
-}
-
-/* Центральная кнопка Play/Pause */
-.plyr__controls button.plyr__control--overlaid,
-.plyr__controls button[data-plyr="play"],
-.plyr__controls button[data-plyr="pause"] {
-  background-color: #1f2025;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  padding: 0;
-}
-
-/* Стрелки назад/вперёд */
-.plyr__controls button[data-plyr="rewind"],
-.plyr__controls button[data-plyr="fast-forward"] {
-  background: none;
-  width: 36px;
-  height: 36px;
-}
-
-/* Иконки внутри кнопок */
+/* Увеличим иконки внутри кнопок */
 .plyr__controls button svg {
-  width: 20px;
-  height: 20px;
-  fill: white;
+  width: 28px;
+  height: 28px;
 }
 
-/* Таймеры (время) */
-.plyr__time {
-  font-size: 14px;
-  color: #111;
-}
-
-/* Прогресс-бар */
+/* Увеличим размер прогресс-бара */
 .plyr__progress {
-  height: 2px !important;
-  border-radius: 1px;
-  margin: 0 8px;
+  height: 10px;
+  border-radius: 5px;
 }
 
-/* Убираем фон шкалы загрузки */
-.plyr__progress__buffer {
-  background: #ccc;
+/* Увеличим высоту плеера */
+.plyr {
+  font-size: 18px; /* увеличит размеры текста */
 }
 
-.plyr__progress__played {
-  background: #111; /* Цвет активной полосы */
-}
 
-/* Убираем лишние кнопки (если есть) */
-.plyr__volume,
-.plyr__menu,
-.plyr__settings,
-.plyr__captions {
-  display: none !important;
+
+@media (max-width: 980px) {
+  .cover {
+    width: 90% !important;
+  }
+
+  #player, .plyr {
+    max-width: 100% !important;
+  }
 }
