@@ -45,8 +45,8 @@ body {
 /* Контейнер плеера */
 #player,
 .plyr {
-  width: 90%;
-  max-width: 90%;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -94,7 +94,7 @@ body {
 
 /* Прогресс и тайминг */
 .plyr__progress {
-  height: 10px;
+  height: 5px;
   border-radius: 2px;
   margin: 0px 0;
 }
@@ -107,7 +107,7 @@ body {
 /* Контейнер прогресса и времени */
 .plyr__time--current,
 .plyr__time--duration {
-  margin: 0 8px;
+  margin: 0 5px;
 }
 
 /* Адаптивность */
