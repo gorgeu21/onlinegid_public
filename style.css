@@ -27,7 +27,7 @@ body {
   align-items: center;
   padding: 20px;
   background-color: #fff; /* Установили белый фон */
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #ddd; /* Можно убрать эту границу, если она не нужна */
 }
 
 .player-container {
@@ -98,9 +98,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff; /* Убрали фон баннера */
+  background-color: #fff; /* Установили белый фон */
   padding: 20px;
   height: 200px; /* Установили фиксированную высоту баннера */
+  margin-top: 20px; /* Добавили вертикальный отступ сверху */
 }
 
 .banner {
