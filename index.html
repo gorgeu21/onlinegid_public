@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Аудиогид</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
 </head>
 <body>
-  <div class="player">
-    <img src="cover.jpg" class="cover" alt="Обложка аудиогида" />
+  <div class="player-container">
+    <img src="cover.jpg" alt="Обложка" class="cover">
     <div class="controls">
-      <button id="play-btn">▶</button>
-      <div class="timeline-container">
-        <input type="range" id="timeline" value="0" min="0" max="100" />
-      </div>
-      <span id="time">00:00</span>
+      <button id="playPauseBtn">▶️</button>
+      <input type="range" id="progressBar" value="0" step="1" min="0" max="100">
     </div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-  <script>
-    const sound = new Howl({ src: ['audio.mp3'] });
-    const playBtn = document.getElementById('play-btn');
-    const timeline = document.getElementById('timeline');
-    const timeDisplay = document.getElementById('time');
-    let playing = false;
 
-    playBtn.addEventListener('click', () => {
-      if (!playing) {
-        sound.play();
-        playBtn.textContent = '⏸';
-        playing = true;
-      } else {
-        sound.pause();
-        playBtn.textContent = '▶';
-        playing = false;
+  <script>
+    const sound = new Howl({
+      src: ['audio.mp3'],
+      html5: true,
+      onend: () => {
+        playPauseBtn.textContent = '▶️';
       }
     });
 
-    sound.on('play', () => {
-      requestAnimationFrame(update);
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressBar = document.getElementById('progressBar');
+
+    let isPlaying = false;
+    let updateInterval;
+
+    playPauseBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        sound.play();
+        playPauseBtn.textContent = '⏸️';
+        updateInterval = setInterval(updateProgress, 500);
+      } else {
+        sound.pause();
+        playPauseBtn.textContent = '▶️';
+        clearInterval(updateInterval);
+      }
+      isPlaying = !isPlaying;
     });
 
-    function update() {
-      const seek = sound.seek() || 0;
-      timeline.value = (seek / sound.duration()) * 100;
-      const minutes = Math.floor(seek / 60).toString().padStart(2, '0');
-      const seconds = Math.floor(seek % 60).toString().padStart(2, '0');
-      timeDisplay.textContent = `${minutes}:${seconds}`;
-      if (sound.playing()) requestAnimationFrame(update);
+    progressBar.addEventListener('input', () => {
+      sound.seek(sound.duration() * (progressBar.value / 100));
+    });
+
+    function updateProgress() {
+      const seek = sound.seek();
+      const duration = sound.duration();
+      if (typeof seek === 'number') {
+        progressBar.value = (seek / duration) * 100;
+      }
     }
-
-    timeline.addEventListener('input', () => {
-      sound.seek(sound.duration() * (timeline.value / 100));
-    });
   </script>
 </body>
 </html>
