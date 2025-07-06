@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Guide Service</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <!-- Media Block -->
+    <div class="media-block">
+        <img src="cover-image.jpg" alt="Exhibit Cover" class="cover-image">
+        <h1 class="exhibit-title">Exhibit Title</h1>
+        <div id="audio-player" class="audio-player"></div>
+    </div>
+    
+    <!-- Banner Block -->
+    <div class="banner-block">
+        <img src="banner-image.jpg" alt="Museum Banner" class="banner-image">
+        <p class="banner-caption">МУЗЕЙ Х М22!</p>
+    </div>
+</div>
+
+<script>
+    // Howler.js Audio Player Configuration
+    const sound = new Howl({
+        src: ['audio-file.mp3'],  // Replace with your audio file
+        html5: true
+    });
+
+    // Function to play audio
+    function playAudio() {
+        sound.play();
+    }
+
+    // Render the play button
+    document.getElementById('audio-player').innerHTML = '<button onclick="playAudio()">Play Audio</button>';
+</script>
+
+</body>
+</html>
