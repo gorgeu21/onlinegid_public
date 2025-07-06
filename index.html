@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Аудиогид</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Исправленный CDN для Howler.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js "></script>
 </head>
 <body>
   <div class="main-container">
-    <!-- Блок плеера -->
+    <!-- Медиа блок -->
     <section class="player-section">
       <div class="player-container">
         <img src="cover.jpg" alt="Обложка" class="cover" id="cover"/>
@@ -30,7 +29,7 @@
       <div class="banner">
         <img src="banner.png" alt="Баннер" class="banner-image" />
         <p class="banner-text">
-          МУЗЕЙ X M22!
+          Радиогиды с легким использованием, эффективной связью и широким радиусом действия для ваших мероприятий!
         </p>
       </div>
     </section>
@@ -41,14 +40,12 @@
     let isPlaying = false;
     let updateInterval;
 
-    // Подгружаем аудио при клике, чтобы избежать блокировки браузером
     document.addEventListener("DOMContentLoaded", () => {
       const playPauseBtn = document.getElementById("playPauseBtn");
       const progressBar = document.getElementById("progressBar");
       const currentTimeDisplay = document.getElementById("currentTime");
       const durationDisplay = document.getElementById("duration");
 
-      // Создаем звук при первом взаимодействии пользователя
       playPauseBtn.addEventListener("click", () => {
         if (!sound) {
           sound = new Howl({
@@ -93,7 +90,6 @@
       });
     });
 
-    // Форматируем время в MM:SS
     function formatTime(seconds) {
       const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
       const secs = String(seconds % 60).padStart(2, "0");
