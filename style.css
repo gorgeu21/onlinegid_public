@@ -27,7 +27,7 @@ body {
   align-items: center;
   padding: 20px;
   background-color: #fff; /* Установили белый фон */
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
 }
 
 .player-container {
@@ -98,7 +98,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent; /* Убрали фон баннера */
+  background-color: #fff; /* Убрали фон баннера */
   padding: 20px;
   height: 200px; /* Установили фиксированную высоту баннера */
 }
