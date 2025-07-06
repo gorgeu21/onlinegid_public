@@ -33,7 +33,7 @@ body {
 .player-container {
   width: 100%;
   max-width: 400px;
-  background-color: #f0f0f0;
+  background-color: #fff;
   padding: 20px;
   border-radius: 12px;
   text-align: center;
