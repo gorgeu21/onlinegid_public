@@ -1,73 +1,100 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Аудиогид</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Исправленный CDN для Howler.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js "></script>
 </head>
 <body>
   <div class="main-container">
-    <!-- Плеер -->
-    <div class="player-section">
+    <!-- Блок плеера -->
+    <section class="player-section">
       <div class="player-container">
-        <img src="cover.jpg" alt="Обложка" class="cover">
+        <h1 id="track-title">Экспонат: Древний Свиток</h1>
+        <img src="cover.jpg" alt="Обложка" class="cover" id="cover"/>
         <div class="controls">
           <button id="playPauseBtn">▶</button>
-          <input type="range" id="progressBar" value="0" step="0.1" min="0" max="100">
+          <input type="range" id="progressBar" value="0" step="0.1" min="0" max="100"/>
+        </div>
+        <div class="time-display">
+          <span id="currentTime">00:00</span> / <span id="duration">00:00</span>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Баннер -->
-    <div class="banner-section">
+    <section class="banner-section">
       <div class="banner">
-        Рекламный баннер или дополнительная информация
+        Здесь может быть информация о выставке или реклама.
       </div>
-    </div>
+    </section>
   </div>
 
   <script>
-    const sound = new Howl({
-      src: ['audio.mp3'],
-      html5: true,
-      onend: () => {
-        playPauseBtn.textContent = '▶';
-        isPlaying = false;
-        clearInterval(updateInterval);
-      }
-    });
-
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressBar = document.getElementById('progressBar');
-
+    let sound;
     let isPlaying = false;
     let updateInterval;
 
-    playPauseBtn.addEventListener('click', () => {
-      if (!isPlaying) {
-        sound.play();
-        playPauseBtn.textContent = '⏸';
-        updateInterval = setInterval(updateProgress, 500);
-      } else {
-        sound.pause();
-        playPauseBtn.textContent = '▶';
-        clearInterval(updateInterval);
-      }
-      isPlaying = !isPlaying;
+    // Подгружаем аудио при клике, чтобы избежать блокировки браузером
+    document.addEventListener("DOMContentLoaded", () => {
+      const playPauseBtn = document.getElementById("playPauseBtn");
+      const progressBar = document.getElementById("progressBar");
+      const currentTimeDisplay = document.getElementById("currentTime");
+      const durationDisplay = document.getElementById("duration");
+
+      // Создаем звук при первом взаимодействии пользователя
+      playPauseBtn.addEventListener("click", () => {
+        if (!sound) {
+          sound = new Howl({
+            src: ["audio.mp3"],
+            html5: true,
+            onend: () => {
+              playPauseBtn.textContent = "▶";
+              isPlaying = false;
+              clearInterval(updateInterval);
+            },
+            onload: () => {
+              const totalSeconds = Math.floor(sound.duration());
+              durationDisplay.textContent = formatTime(totalSeconds);
+            }
+          });
+        }
+
+        if (!isPlaying) {
+          sound.play();
+          playPauseBtn.textContent = "⏸";
+          updateInterval = setInterval(() => {
+            const seek = sound.seek();
+            const duration = sound.duration();
+            if (typeof seek === 'number') {
+              progressBar.value = (seek / duration) * 100;
+              currentTimeDisplay.textContent = formatTime(Math.floor(seek));
+            }
+          }, 500);
+        } else {
+          sound.pause();
+          playPauseBtn.textContent = "▶";
+          clearInterval(updateInterval);
+        }
+        isPlaying = !isPlaying;
+      });
+
+      progressBar.addEventListener("input", () => {
+        if (sound && sound.playing()) {
+          const seekTo = sound.duration() * (progressBar.value / 100);
+          sound.seek(seekTo);
+        }
+      });
     });
 
-    progressBar.addEventListener('input', () => {
-      sound.seek(sound.duration() * (progressBar.value / 100));
-    });
-
-    function updateProgress() {
-      const seek = sound.seek();
-      const duration = sound.duration();
-      if (typeof seek === 'number') {
-        progressBar.value = (seek / duration) * 100;
-      }
+    // Форматируем время в MM:SS
+    function formatTime(seconds) {
+      const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const secs = String(seconds % 60).padStart(2, "0");
+      return `${mins}:${secs}`;
     }
   </script>
 </body>
