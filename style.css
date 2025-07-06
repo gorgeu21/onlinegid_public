@@ -6,33 +6,33 @@
 
 body {
   font-family: sans-serif;
-  background-color: #fff; /* Установили белый фон */
-  color: #fff;
+  background-color: #fff;
+  color: #333;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .main-container {
   display: flex;
   flex-direction: column;
+  gap: 20px; /* Единое расстояние между блоками */
   height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
 }
 
 /* Плеер */
 .player-section {
-  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #fff; /* Установили белый фон */
-  border-bottom: 1px solid #ddd; /* Можно убрать эту границу, если она не нужна */
+  background-color: #fff;
+  height: 70vh; /* Высота плеера — 70% высоты экрана */
 }
 
 .player-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 400px;
   background-color: #f0f0f0;
   padding: 20px;
   border-radius: 12px;
@@ -94,14 +94,12 @@ body {
 
 /* Баннер */
 .banner-section {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff; /* Установили белый фон */
+  background-color: #fff;
   padding: 20px;
-  height: 200px; /* Установили фиксированную высоту баннера */
-  margin-top: 20px; /* Добавили вертикальный отступ сверху */
+  height: 200px; /* Фиксированная высота баннера */
 }
 
 .banner {
@@ -109,15 +107,15 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Растянули баннер по всей ширине */
-  max-width: 100%; /* Убедились, что баннер не ограничен */
+  width: 100%;
+  max-width: 100%;
 }
 
 .banner-image {
-  width: 100%; /* Изображение растянется на всю ширину */
-  height: auto; /* Сохраняет пропорции */
+  width: 100%;
+  height: auto;
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .banner-text {
@@ -129,33 +127,28 @@ body {
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .player-container {
-    max-width: 300px; /* Уменьшаем максимальную ширину контейнера */
+    max-width: 300px;
   }
 
   .banner {
-    max-width: 90%; /* Увеличиваем максимальную ширину баннера */
+    max-width: 90%;
   }
 
   .banner-image {
-    max-width: 100%; /* Изображение будет полностью заполнять родительский контейнер */
+    max-width: 100%;
   }
 
   .banner-text {
-    font-size: 16px; /* Уменьшаем размер текста для лучшей читаемости */
-  }
-}
-
-/* Адаптивность для планшетов */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .player-container {
-    max-width: 350px; /* Увеличиваем максимальную ширину контейнера по сравнению с мобильной версией */
+    font-size: 16px;
   }
 
-  .banner {
-    max-width: 80%; /* Уменьшаем максимальную ширину баннера */
+  .player-section {
+    height: auto;
+    padding: 15px;
   }
 
-  .banner-text {
-    font-size: 18px; /* Возвращаем исходный размер текста */
+  .banner-section {
+    height: auto;
+    padding: 15px;
   }
 }
