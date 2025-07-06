@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Аудиогид</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+</head>
+<body>
+  <div class="player-container">
+    <img src="cover.jpg" alt="Обложка" class="cover">
+    <div class="controls">
+      <button id="playPauseBtn">▶️</button>
+      <input type="range" id="progressBar" value="0" step="1" min="0" max="100">
+    </div>
+  </div>
+
+  <script>
+    const sound = new Howl({
+      src: ['audio.mp3'],
+      html5: true,
+      onend: () => {
+        playPauseBtn.textContent = '▶️';
+      }
+    });
+
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressBar = document.getElementById('progressBar');
+
+    let isPlaying = false;
+    let updateInterval;
+
+    playPauseBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        sound.play();
+        playPauseBtn.textContent = '⏸️';
+        updateInterval = setInterval(updateProgress, 500);
+      } else {
+        sound.pause();
+        playPauseBtn.textContent = '▶️';
+        clearInterval(updateInterval);
+      }
+      isPlaying = !isPlaying;
+    });
+
+    progressBar.addEventListener('input', () => {
+      sound.seek(sound.duration() * (progressBar.value / 100));
+    });
+
+    function updateProgress() {
+      const seek = sound.seek();
+      const duration = sound.duration();
+      if (typeof seek === 'number') {
+        progressBar.value = (seek / duration) * 100;
+      }
+    }
+  </script>
+</body>
+</html>
