@@ -98,7 +98,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e0e0e0;
+  background-color: transparent; /* Убрали фон баннера */
   padding: 20px;
   height: 200px; /* Установили фиксированную высоту баннера */
 }
@@ -108,7 +108,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 80%;
+  width: 100%; /* Растянули баннер по всей ширине */
+  max-width: 100%; /* Убедились, что баннер не ограничен */
 }
 
 .banner-image {
@@ -122,20 +123,6 @@ body {
   font-size: 18px;
   text-align: center;
   margin-bottom: 16px;
-}
-
-.banner-button {
-  background-color: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.banner-button:hover {
-  background-color: #333;
 }
 
 /* Адаптивность для мобильных устройств */
@@ -155,10 +142,6 @@ body {
   .banner-text {
     font-size: 16px; /* Уменьшаем размер текста для лучшей читаемости */
   }
-
-  .banner-button {
-    padding: 8px 16px; /* Уменьшаем размер кнопки */
-  }
 }
 
 /* Адаптивность для планшетов */
@@ -173,9 +156,5 @@ body {
 
   .banner-text {
     font-size: 18px; /* Возвращаем исходный размер текста */
-  }
-
-  .banner-button {
-    padding: 10px 20px; /* Возвращаем исходный размер кнопки */
   }
 }
