@@ -33,7 +33,7 @@ body {
 .player-container {
   width: 100%;
   max-width: 400px;
-  background-color: #fff;
+  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 12px;
   text-align: center;
@@ -100,11 +100,40 @@ body {
   align-items: center;
   background-color: #e0e0e0;
   padding: 20px;
-  border-radius: 8px;
+  height: 200px; /* Установили фиксированную высоту баннера */
 }
 
 .banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 80%;
+}
+
+.banner-image {
+  width: 100%; /* Изображение растянется на всю ширину */
+  height: auto; /* Сохраняет пропорции */
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.banner-text {
   font-size: 18px;
   text-align: center;
-  max-width: 80%;
+  margin-bottom: 16px;
+}
+
+.banner-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.banner-button:hover {
+  background-color: #333;
 }
