@@ -1,4 +1,4 @@
-/* Общие базовые стили */
+/* Базовые настройки */
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +9,7 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Светлая тема */
@@ -81,14 +82,14 @@ body.dark .time-display {
   color: #ccc;
 }
 
-/* Контейнер */
+/* Контейнер медиаблока */
 .container {
   border-radius: 16px;
   padding: 20px;
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
+  box-sizing: border-box;
   text-align: center;
-  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* Обложка */
@@ -99,7 +100,7 @@ body.dark .time-display {
   margin-bottom: 16px;
 }
 
-/* Заголовок */
+/* Заголовок и подзаголовок */
 .text-wrapper h1 {
   font-size: 1.5em;
   margin: 10px 0 4px;
@@ -152,13 +153,20 @@ body.dark .time-display {
 
 /* Переключатель темы */
 .theme-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  z-index: 1000;
 }
 
-/* Кнопка-переключатель */
+.theme-icon {
+  font-size: 1.2em;
+}
+
+/* Стиль переключателя */
 .switch {
   position: relative;
   display: inline-block;
@@ -199,4 +207,12 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(20px);
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+    max-width: 100%;
+  }
 }
