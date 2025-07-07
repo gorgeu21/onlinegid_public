@@ -9,12 +9,13 @@
 </head>
 <body class="light">
 
+  <!-- Переключатель темы -->
   <div class="theme-toggle">
     <label class="switch">
       <input type="checkbox" id="theme-switch">
       <span class="slider round"></span>
     </label>
-    <span>Тёмная тема</span>
+    <span class="theme-icon" id="theme-icon">🌞</span>
   </div>
 
   <div class="container">
@@ -107,13 +108,15 @@
       }, 100);
     }
 
-    // Theme toggle
+    // Theme switch
     const themeSwitch = document.getElementById('theme-switch');
     const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
 
     themeSwitch.addEventListener('change', () => {
       body.classList.toggle('dark');
       body.classList.toggle('light');
+      themeIcon.textContent = body.classList.contains('dark') ? '🌙' : '🌞';
     });
   </script>
 </body>
