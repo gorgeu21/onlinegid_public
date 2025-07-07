@@ -2,7 +2,7 @@
   --bg-color: #ffffff;
   --text-color: #000000;
   --subtitle-color: #555;
-  --accent-color: #5ebeff;
+  --accent-color: #007bff;
   --slider-bg: #ccc;
   --slider-thumb: #ffffff;
 }
@@ -11,7 +11,7 @@ body.dark {
   --bg-color: #121212;
   --text-color: #ffffff;
   --subtitle-color: #aaa;
-  --accent-color: #8acfff;
+  --accent-color: #1e90ff;
   --slider-bg: #555;
   --slider-thumb: #ffffff;
 }
@@ -24,14 +24,11 @@ body {
   display: flex;
   justify-content: center;
   padding: 16px;
-  min-height: 100vh;
-  box-sizing: border-box;
 }
 
 .container {
   width: 100%;
-  max-width: 400px;
-  height: 70vh;
+  max-width: 380px;
   padding: 12px;
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
@@ -39,21 +36,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  box-sizing: border-box;
-}
-
-.image-wrapper {
-  height: 260px; /* было 360px */
-  overflow: hidden;
-  border-radius: 16px; /* закругление обложки */
 }
 
 .image-wrapper img {
-  height: 100%;
   width: 100%;
+  max-height: 260px;
   object-fit: cover;
-  border-radius: 16px; /* чтобы и сама картинка была закруглённой */
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .text-wrapper {
@@ -78,7 +68,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .play-wrapper {
@@ -89,24 +79,22 @@ body {
 }
 
 .play-wrapper button {
-  background: transparent;
+  background-color: var(--accent-color);
   border: none;
+  border-radius: 50%;
+  padding: 8px;
   cursor: pointer;
-  width: 0;
-  height: 0;
-  border-left: 40px solid var(--accent-color); /* создаём треугольник */
-  border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent;
-  padding: 0;
-  transition: border-left-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .play-wrapper button:hover {
-  border-left-color: #4ab0e0;
+  background-color: #0056b3;
 }
 
 .play-wrapper svg {
-  display: none; /* SVG больше не нужен, отключаем */
+  width: 24px;
+  height: 24px;
+  fill: white;
 }
 
 .theme-toggle {
@@ -123,8 +111,8 @@ body {
 .switch {
   position: relative;
   display: inline-block;
-  width: 74px;
-  height: 34px;
+  width: 34px;
+  height: 18px;
 }
 
 .switch input {
@@ -148,10 +136,10 @@ body {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 5px;
-  bottom: 5px;
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
   background-color: var(--slider-thumb);
   transition: 0.4s;
   border-radius: 50%;
@@ -162,20 +150,20 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(16px);
 }
 
 .time-display {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
   font-size: 12px;
-  margin-top: 4px;
+  margin-top: 6px;
   color: var(--text-color);
 }
 
 .progress-bar-container {
-  width: 90%;
+  width: 100%;
   height: 4px;
   background-color: var(--slider-bg);
   border-radius: 2px;
@@ -198,79 +186,6 @@ input:checked + .slider:before {
   margin-top: 12px;
 }
 
-.banner {
-  margin-top: 16px;
-  margin-bottom: 16px;
-  width: 90%;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.banner img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 12px;
-}
-
-.banner-title {
-  font-size: 16px;
-  text-align: center;
-  color: var(--text-color);
-  margin-top: 2px;
-  margin-bottom: 10px;
-}
-
-/* Основная кнопка */
-.play-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  padding: 0;
-  width: 0;
-  height: 0;
-  transition: all 0.3s ease;
-}
-
-/* Состояние "Play" — треугольник */
-.play-button:not(.is-playing) {
-  border-left: 24px solid var(--accent-color);
-  border-top: 16px solid transparent;
-  border-bottom: 16px solid transparent;
-}
-
-/* Состояние "Pause" — две полоски */
-.play-button.is-playing {
-  width: 20px;
-  height: 32px;
-}
-
-.play-button.is-playing::before,
-.play-button.is-playing::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 6px;
-  height: 100%;
-  background-color: var(--accent-color);
-  transition: all 0.3s ease;
-}
-
-.play-button.is-playing::before {
-  left: 0;
-}
-
-.play-button.is-playing::after {
-  right: 0;
-}
-
-/* Hover эффект */
-.play-button:hover {
-  filter: brightness(1.1);
-}
-
-
 @media (max-width: 480px) {
   .theme-toggle {
     transform: scale(0.75);
@@ -280,19 +195,10 @@ input:checked + .slider:before {
 
   .container {
     padding: 8px;
-    height: auto;
   }
 
   .play-wrapper svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .play-wrapper button {
-    padding: 20px;
-  }
-
-  .banner-title {
-    font-size: 13px;
+    width: 22px;
+    height: 22px;
   }
 }

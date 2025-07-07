@@ -28,8 +28,15 @@
 
     <div class="player-controls">
       <div class="play-wrapper">
-  <button class="play-button" aria-label="Play/Pause"></button>
-</div>
+        <button id="play" aria-label="Воспроизвести или приостановить">
+          <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" style="display: none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+      </div>
 
       <div class="theme-toggle">
         <span id="theme-icon">🌞</span>
@@ -143,12 +150,5 @@
       themeIcon.textContent = document.body.classList.contains('dark') ? '🌙' : '🌞';
     });
   </script>
-  <script>
-  const playButton = document.querySelector('.play-button');
-
-  playButton.addEventListener('click', () => {
-    playButton.classList.toggle('is-playing');
-  });
-</script>
 </body>
 </html>
