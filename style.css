@@ -2,7 +2,7 @@
   --bg-color: #ffffff;
   --text-color: #000000;
   --subtitle-color: #555;
-  --accent-color: #4daaff; /* светлый голубой */
+  --accent-color: #5ebeff;
   --slider-bg: #ccc;
   --slider-thumb: #ffffff;
 }
@@ -11,7 +11,7 @@ body.dark {
   --bg-color: #121212;
   --text-color: #ffffff;
   --subtitle-color: #aaa;
-  --accent-color: #69bfff; /* светлый голубой в тёмной теме */
+  --accent-color: #8acfff;
   --slider-bg: #555;
   --slider-thumb: #ffffff;
 }
@@ -39,7 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   box-sizing: border-box;
 }
 
@@ -87,13 +87,13 @@ body {
   background-color: var(--accent-color);
   border: none;
   border-radius: 50%;
-  padding: 24px;
+  padding: 26px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .play-wrapper button:hover {
-  background-color: #3399ff;
+  background-color: #4ab0e0;
 }
 
 .play-wrapper svg {
@@ -110,7 +110,6 @@ body {
   gap: 4px;
   font-size: 16px;
   transform: scale(0.85);
-  top: -12px;
 }
 
 /* Toggle Switch */
@@ -156,7 +155,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(40px);
+  transform: translateX(20px);
 }
 
 .time-display {
@@ -192,13 +191,12 @@ input:checked + .slider:before {
   margin-top: 12px;
 }
 
-/* 🔽 Новый блок баннера */
 .banner {
-  width: 100%;
-  margin-top: 16px;
+  margin-top: auto;
+  margin-bottom: 16px;
+  width: 90%;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .banner img {
@@ -209,35 +207,34 @@ input:checked + .slider:before {
 }
 
 .banner-title {
+  font-size: 14px;
   text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 12px;
   color: var(--text-color);
+  margin-bottom: 12px;
 }
 
-/* Адаптация */
 @media (max-width: 480px) {
   .theme-toggle {
     transform: scale(0.75);
     right: 4px;
-    top: -8px;
+    top: 4px;
   }
 
   .container {
     padding: 8px;
+    height: auto;
+  }
+
+  .play-wrapper svg {
+    width: 28px;
+    height: 28px;
   }
 
   .play-wrapper button {
     padding: 20px;
   }
 
-  .play-wrapper svg {
-    width: 36px;
-    height: 36px;
-  }
-
   .banner-title {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
