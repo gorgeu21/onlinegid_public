@@ -48,7 +48,8 @@ body {
   max-height: 260px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .text-wrapper {
@@ -194,7 +195,7 @@ input:checked + .slider:before {
 .banner {
   margin-top: 16px;
   margin-bottom: 16px;
-  width: 60%;
+  width: 80%;
   border-radius: 12px;
   overflow: hidden;
 }
