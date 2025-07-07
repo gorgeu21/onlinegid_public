@@ -82,7 +82,7 @@ body {
   background-color: var(--accent-color);
   border: none;
   border-radius: 50%;
-  padding: 14px;
+  padding: 26px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
