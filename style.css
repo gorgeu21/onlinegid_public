@@ -1,18 +1,16 @@
-/* Фон страницы */
 body {
   margin: 0;
-  background-color: #e6f7ff; /* светло-голубой фон */
+  background-color: #e6f7ff;
   font-family: Arial, sans-serif;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* плеер внизу */
+  justify-content: flex-end;
 }
 
-/* Медиа-плеер */
 .media-player {
   background: white;
-  height: 100px; /* увеличенный размер */
+  height: 100px;
   width: 100%;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
@@ -23,13 +21,11 @@ body {
   box-sizing: border-box;
 }
 
-/* Контент плеера (арт + текст) */
 .player-content {
   display: flex;
   align-items: center;
 }
 
-/* Миниатюра альбома */
 .album-art {
   width: 70px;
   height: 70px;
@@ -40,7 +36,6 @@ body {
   flex-shrink: 0;
 }
 
-/* Текст песни и исполнителя */
 .song-info {
   margin-left: 20px;
 }
@@ -57,7 +52,6 @@ body {
   color: #666;
 }
 
-/* Контейнер с прогресс-баром и кнопкой */
 .progress-ring {
   position: relative;
   width: 50px;
@@ -65,7 +59,6 @@ body {
   flex-shrink: 0;
 }
 
-/* SVG кольцо */
 .ring {
   position: absolute;
   top: 0;
@@ -85,25 +78,45 @@ body {
   transition: stroke-dashoffset 0.1s linear;
 }
 
-/* Кнопка паузы / проигрывания */
-.pause-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #007bff;
-  box-shadow: 0 5px 10px rgba(0, 123, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+/* Кнопка play/pause */
+.play-pause-btn {
   position: absolute;
   top: 5px;
   left: 5px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #007bff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  background: white;
+  box-shadow: 0 5px 10px rgba(0, 123, 255, 0.2);
+  cursor: pointer;
   user-select: none;
+  outline: none;
+}
+
+/* Иконка Play */
+.play-pause-btn.play::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 16px;
+  border-color: transparent transparent transparent #007bff;
+}
+
+/* Иконка Pause */
+.play-pause-btn.pause::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 13px;
+  width: 6px;
+  height: 20px;
+  background-color: #007bff;
+  box-shadow: 12px 0 0 #007bff;
 }
 
 /* Адаптивность */
@@ -126,12 +139,23 @@ body {
     width: 40px;
     height: 40px;
   }
-  .pause-button {
+  .play-pause-btn {
     width: 32px;
     height: 32px;
-    font-size: 14px;
     top: 4px;
     left: 4px;
+  }
+  .play-pause-btn.play::before {
+    left: 12px;
+    top: 7px;
+    border-width: 8px 0 8px 12px;
+  }
+  .play-pause-btn.pause::before {
+    width: 5px;
+    height: 16px;
+    top: 7px;
+    left: 10px;
+    box-shadow: 10px 0 0 #007bff;
   }
 }
 
@@ -154,11 +178,22 @@ body {
     width: 35px;
     height: 35px;
   }
-  .pause-button {
+  .play-pause-btn {
     width: 28px;
     height: 28px;
-    font-size: 12px;
     top: 3px;
     left: 3px;
+  }
+  .play-pause-btn.play::before {
+    left: 10px;
+    top: 6px;
+    border-width: 7px 0 7px 10px;
+  }
+  .play-pause-btn.pause::before {
+    width: 4px;
+    height: 14px;
+    top: 6px;
+    left: 9px;
+    box-shadow: 8px 0 0 #007bff;
   }
 }
