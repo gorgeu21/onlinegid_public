@@ -2,7 +2,7 @@
   --bg-color: #ffffff;
   --text-color: #000000;
   --subtitle-color: #555;
-  --accent-color: #007bff;
+  --accent-color: #4daaff; /* светлый голубой */
   --slider-bg: #ccc;
   --slider-thumb: #ffffff;
 }
@@ -11,7 +11,7 @@ body.dark {
   --bg-color: #121212;
   --text-color: #ffffff;
   --subtitle-color: #aaa;
-  --accent-color: #1e90ff;
+  --accent-color: #69bfff; /* светлый голубой в тёмной теме */
   --slider-bg: #555;
   --slider-thumb: #ffffff;
 }
@@ -24,11 +24,14 @@ body {
   display: flex;
   justify-content: center;
   padding: 16px;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .container {
   width: 100%;
   max-width: 480px;
+  height: 90vh;
   padding: 12px;
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
@@ -36,6 +39,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .image-wrapper img {
@@ -82,18 +87,18 @@ body {
   background-color: var(--accent-color);
   border: none;
   border-radius: 50%;
-  padding: 26px;
+  padding: 24px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .play-wrapper button:hover {
-  background-color: #0056b3;
+  background-color: #3399ff;
 }
 
 .play-wrapper svg {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   fill: white;
 }
 
@@ -105,6 +110,7 @@ body {
   gap: 4px;
   font-size: 16px;
   transform: scale(0.85);
+  top: -12px;
 }
 
 /* Toggle Switch */
@@ -150,7 +156,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(40px);
 }
 
 .time-display {
@@ -186,19 +192,52 @@ input:checked + .slider:before {
   margin-top: 12px;
 }
 
+/* 🔽 Новый блок баннера */
+.banner {
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.banner-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 12px;
+  color: var(--text-color);
+}
+
+/* Адаптация */
 @media (max-width: 480px) {
   .theme-toggle {
     transform: scale(0.75);
     right: 4px;
-    top: 4px;
+    top: -8px;
   }
 
   .container {
     padding: 8px;
   }
 
+  .play-wrapper button {
+    padding: 20px;
+  }
+
   .play-wrapper svg {
-    width: 22px;
-    height: 22px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .banner-title {
+    font-size: 14px;
   }
 }
