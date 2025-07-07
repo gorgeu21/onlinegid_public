@@ -5,39 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Аудиогид</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Исправленный CDN для Howler.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
 </head>
 <body>
   <div class="main-container">
-    <!-- Обложка экспоната -->
+    <!-- Обложка -->
     <div class="cover-section">
       <img src="cover.jpg" alt="Обложка экспоната" class="cover-image" />
     </div>
 
-    <!-- Заголовок экспоната -->
+    <!-- Заголовок -->
     <div class="title-section">
       <h2 class="title">Вступление</h2>
       <p class="subtitle">Зал 1. Неизвестная Куса</p>
     </div>
 
-    <!-- Аудиоплеер -->
+    <!-- Плеер -->
     <div class="player-section">
       <div class="controls">
-        <button id="prevTrackBtn" class="control-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
         <button id="playPauseBtn" class="control-btn play-pause-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-            <path d="M14 5v14l11-7z" />
-          </svg>
-        </button>
-        <button id="nextTrackBtn" class="control-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path d="M9 6l6 6-6 6V6z" />
-          </svg>
+          ▶️
         </button>
       </div>
       <div class="time-display">
@@ -48,59 +35,47 @@
   </div>
 
   <script>
-    let sound;
-    let isPlaying = false;
-    let updateInterval;
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const playPauseBtn = document.getElementById("playPauseBtn");
-      const progressBar = document.getElementById("progressBar");
-      const currentTimeDisplay = document.getElementById("currentTime");
-      const durationDisplay = document.getElementById("duration");
-
-      playPauseBtn.addEventListener("click", () => {
-        if (!sound) {
-          sound = new Howl({
-            src: ["audio.mp3"],
-            html5: true,
-            onend: () => {
-              playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10"><path d="M6 18L18 6M6 6l12 12"/></svg>';
-              isPlaying = false;
-              clearInterval(updateInterval);
-            },
-            onload: () => {
-              const totalSeconds = Math.floor(sound.duration());
-              durationDisplay.textContent = formatTime(totalSeconds);
-            }
-          });
-        }
-
-        if (!isPlaying) {
-          sound.play();
-          playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10"><path d="M14 5v14l11-7z"/></svg>';
-          isPlaying = true;
-          updateInterval = setInterval(() => {
-            const seek = sound.seek();
-            const duration = sound.duration();
-            if (typeof seek === 'number') {
-              progressBar.value = (seek / duration) * 100;
-              currentTimeDisplay.textContent = formatTime(Math.floor(seek));
-            }
-          }, 500);
-        } else {
-          sound.pause();
-          playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10"><path d="M6 18L18 6M6 6l12 12"/></svg>';
-          isPlaying = false;
-          clearInterval(updateInterval);
-        }
-      });
-
-      function formatTime(seconds) {
-        const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-        const secs = String(seconds % 60).padStart(2, "0");
-        return `${mins}:${secs}`;
+    let sound = new Howl({
+      src: ['audio-file.mp3'],
+      html5: true,
+      onload: () => {
+        const duration = formatTime(Math.floor(sound.duration()));
+        document.getElementById('duration').textContent = duration;
+      },
+      onend: () => {
+        isPlaying = false;
+        playBtn.textContent = '▶️';
+        clearInterval(updateInterval);
       }
     });
+
+    let isPlaying = false;
+    let updateInterval;
+    const playBtn = document.getElementById('playPauseBtn');
+    const currentTimeEl = document.getElementById('currentTime');
+
+    playBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        sound.play();
+        isPlaying = true;
+        playBtn.textContent = '⏸️';
+        updateInterval = setInterval(() => {
+          const current = formatTime(Math.floor(sound.seek()));
+          currentTimeEl.textContent = current;
+        }, 500);
+      } else {
+        sound.pause();
+        isPlaying = false;
+        playBtn.textContent = '▶️';
+        clearInterval(updateInterval);
+      }
+    });
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
   </script>
 </body>
 </html>
