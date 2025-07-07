@@ -11,10 +11,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  padding: 16px;
 }
 
 .main-container {
-  width: 90%;
+  width: 100%;
   max-width: 640px;
   background: #fff;
   border-radius: 16px;
@@ -105,4 +106,34 @@ body {
   background: #fff;
   width: 0%;
   transition: width 0.2s linear;
+}
+
+/* 📱 Мобильная адаптация */
+@media (max-width: 480px) {
+  .main-container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .control-btn {
+    font-size: 1.6rem;
+    width: 56px;
+    height: 56px;
+  }
+
+  .player-container {
+    padding: 20px;
+  }
+
+  .progress-container {
+    gap: 8px;
+    font-size: 0.8rem;
+  }
 }
