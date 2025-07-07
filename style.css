@@ -111,8 +111,8 @@ body {
 .switch {
   position: relative;
   display: inline-block;
-  width: 84px;
-  height: 44px;
+  width: 74px;
+  height: 34px;
 }
 
 .switch input {
@@ -163,7 +163,7 @@ input:checked + .slider:before {
 }
 
 .progress-bar-container {
-  width: 100%;
+  width: 90%;
   height: 4px;
   background-color: var(--slider-bg);
   border-radius: 2px;
