@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Аудиогид — Неизвестная Куса</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+</head>
+<body>
+  <div class="player-container">
+    <img src="cover.jpg" alt="Обложка" class="cover" />
+    <h2>Вступление</h2>
+    <p>Зал 1. Неизвестная Куса</p>
+    <div class="controls">
+      <button id="prev">&#9198;</button>
+      <button id="play">&#9658;</button>
+      <button id="next">&#9197;</button>
+    </div>
+    <div class="time">
+      <span id="current">0:00</span>
+      <input type="range" id="progress" value="0" />
+      <span id="duration">0:00</span>
+    </div>
+  </div>
+  <script>
+    const sound = new Howl({
+      src: ['audio.mp3'],
+      html5: true,
+      onplay: () => {
+        updateProgress();
+        durationEl.textContent = formatTime(sound.duration());
+        playBtn.innerHTML = "&#10073;&#10073;";
+      },
+      onend: () => {
+        playBtn.innerHTML = "&#9658;";
+      }
+    });
+
+    const playBtn = document.getElementById('play');
+    const progress = document.getElementById('progress');
+    const currentTimeEl = document.getElementById('current');
+    const durationEl = document.getElementById('duration');
+
+    playBtn.addEventListener('click', () => {
+      if (sound.playing()) {
+        sound.pause();
+        playBtn.innerHTML = "&#9658;";
+      } else {
+        sound.play();
+      }
+    });
+
+    progress.addEventListener('input', () => {
+      sound.seek(progress.value);
+    });
+
+    function updateProgress() {
+      requestAnimationFrame(updateProgress);
+      const seek = sound.seek() || 0;
+      currentTimeEl.textContent = formatTime(seek);
+      progress.value = seek;
+      progress.max = sound.duration();
+    }
+
+    function formatTime(sec) {
+      const minutes = Math.floor(sec / 60) || 0;
+      const seconds = Math.floor(sec % 60) || 0;
+      return `${minutes}:${(seconds < 10 ? "0" : "")}${seconds}`;
+    }
+  </script>
+</body>
+</html>
