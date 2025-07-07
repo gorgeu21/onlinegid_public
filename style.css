@@ -136,10 +136,10 @@ body {
 .slider:before {
   position: absolute;
   content: "";
-  height: 36px;
-  width: 36px;
-  left: 6px;
-  bottom: 6px;
+  height: 26px;
+  width: 26px;
+  left: 5px;
+  bottom: 5px;
   background-color: var(--slider-thumb);
   transition: 0.4s;
   border-radius: 50%;
