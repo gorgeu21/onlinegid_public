@@ -1,54 +1,68 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{title}}</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="image-wrapper">
-      <img src="cover.jpg" alt="Обложка экспозиции">
+      <img src="cover/cover.jpg" alt="Обложка экспозиции" />
     </div>
     <div class="text-wrapper">
       <h1>{{title}}</h1>
       <p class="subtitle">{{organization}}</p>
     </div>
     <div class="player-controls">
-      <button id="prev">⏮️</button>
-      <button id="play">▶️</button>
-      <button id="next">⏭️</button>
+      <button id="play" aria-label="Воспроизвести или приостановить">
+        <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" viewBox="0 0 24 24" style="display: none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+      </button>
     </div>
     <div class="time-display">
       <span id="current-time">0:00</span>
-      <span id="duration">1:49</span>
+      <span id="duration">0:00</span>
     </div>
   </div>
 
   <script>
     const sound = new Howl({
-      src: ['audio.mp3'],
+      src: ['audio/audio.mp3'],
       html5: true,
       onplay: () => {
-        requestAnimationFrame(updateTime);
-      }
+        toggleIcons(true);
+        updateTime();
+        updateDuration();
+      },
+      onpause: () => toggleIcons(false),
+      onend: () => toggleIcons(false)
     });
 
     const playBtn = document.getElementById('play');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
     const currentTime = document.getElementById('current-time');
-    const duration = document.getElementById('duration');
+    const durationEl = document.getElementById('duration');
 
     playBtn.addEventListener('click', () => {
       if (sound.playing()) {
         sound.pause();
-        playBtn.textContent = '▶️';
       } else {
         sound.play();
-        playBtn.textContent = '⏸️';
       }
     });
+
+    function toggleIcons(isPlaying) {
+      playIcon.style.display = isPlaying ? 'none' : 'inline';
+      pauseIcon.style.display = isPlaying ? 'inline' : 'none';
+    }
 
     function updateTime() {
       const sec = Math.floor(sound.seek() || 0);
@@ -58,6 +72,18 @@
       if (sound.playing()) {
         requestAnimationFrame(updateTime);
       }
+    }
+
+    function updateDuration() {
+      const check = setInterval(() => {
+        if (sound.duration()) {
+          const dur = Math.floor(sound.duration());
+          const minutes = Math.floor(dur / 60);
+          const seconds = dur % 60;
+          durationEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+          clearInterval(check);
+        }
+      }, 100);
     }
   </script>
 </body>
