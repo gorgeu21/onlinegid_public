@@ -60,12 +60,15 @@
     const progressContainer = document.getElementById('progress-container');
     const loading = document.getElementById('loading');
 
+    let isSeeking = false;
+
     const sound = new Howl({
       src: ['audio/audio.mp3'],
       html5: true,
       onload: () => {
         loading.style.display = 'none';
         updateDuration();
+        sound.play(); // автозапуск
       },
       onplay: () => {
         toggleIcons(true);
@@ -94,10 +97,12 @@
     }
 
     function updateTime() {
-      const sec = Math.floor(sound.seek() || 0);
-      const minutes = Math.floor(sec / 60);
-      const seconds = sec % 60;
-      currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      if (!isSeeking) {
+        const sec = Math.floor(sound.seek() || 0);
+        const minutes = Math.floor(sec / 60);
+        const seconds = sec % 60;
+        currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      }
       if (sound.playing()) requestAnimationFrame(updateTime);
     }
 
@@ -110,21 +115,24 @@
 
     function animateProgress() {
       const update = () => {
-        const seek = sound.seek() || 0;
-        const duration = sound.duration() || 1;
-        const percent = (seek / duration) * 100;
-        progressBar.style.width = `${percent}%`;
+        if (!isSeeking) {
+          const seek = sound.seek() || 0;
+          const duration = sound.duration() || 1;
+          const percent = (seek / duration) * 100;
+          progressBar.style.width = `${percent}%`;
+        }
         if (sound.playing()) requestAnimationFrame(update);
       };
       update();
     }
 
-    // Перемотка по клику
-    progressContainer.addEventListener('click', function(e) {
-      const width = this.clientWidth;
-      const clickX = e.offsetX;
-      const duration = sound.duration();
-      const seekTo = (clickX / width) * duration;
+    // Перемотка по клику на прогресс-бар
+    progressContainer.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      const percent = clickX / width;
+      const seekTo = percent * sound.duration();
       sound.seek(seekTo);
       updateTime();
       animateProgress();
