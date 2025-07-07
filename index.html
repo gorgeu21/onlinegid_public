@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ондайн.Аудиогид</title>
+  <title>{{title}}</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
@@ -13,8 +13,17 @@
       <img src="cover/cover.jpg" alt="Обложка экспозиции" />
     </div>
     <div class="text-wrapper">
-      <h1>Крик - Элдвард Мунк</h1>
+      <h1>Крик - Эдвард Мунк</h1>
       <p class="subtitle">МУЗЕЙ №1</p>
+    </div>
+
+    <div class="time-display">
+      <span id="current-time">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+
+    <div class="progress-bar-container" id="progress-container">
+      <div class="progress-bar" id="progress"></div>
     </div>
 
     <div class="player-controls">
@@ -28,44 +37,48 @@
           </svg>
         </button>
       </div>
+
       <div class="theme-toggle">
         <span id="theme-icon">🌞</span>
         <label class="switch">
-          <input type="checkbox" id="theme-toggle">
+          <input type="checkbox" id="theme-switch">
           <span class="slider round"></span>
         </label>
       </div>
     </div>
 
-    <div class="progress-bar-container">
-      <div class="progress-bar" id="progress"></div>
-    </div>
-
-    <div class="time-display">
-      <span id="current-time">0:00</span>
-      <span id="duration">0:00</span>
-    </div>
+    <div id="loading">Загрузка аудио...</div>
   </div>
 
   <script>
-    const sound = new Howl({
-      src: ['audio/audio.mp3'],
-      html5: true,
-      onplay: () => {
-        toggleIcons(true);
-        updateTime();
-        updateDuration();
-      },
-      onpause: () => toggleIcons(false),
-      onend: () => toggleIcons(false)
-    });
-
     const playBtn = document.getElementById('play');
     const playIcon = document.getElementById('play-icon');
     const pauseIcon = document.getElementById('pause-icon');
     const currentTime = document.getElementById('current-time');
     const durationEl = document.getElementById('duration');
     const progressBar = document.getElementById('progress');
+    const progressContainer = document.getElementById('progress-container');
+    const loading = document.getElementById('loading');
+
+    const sound = new Howl({
+      src: ['audio/audio.mp3'],
+      html5: true,
+      onload: () => {
+        loading.style.display = 'none';
+        updateDuration();
+      },
+      onplay: () => {
+        toggleIcons(true);
+        updateTime();
+        animateProgress();
+      },
+      onpause: () => toggleIcons(false),
+      onend: () => {
+        toggleIcons(false);
+        progressBar.style.width = '0%';
+        currentTime.textContent = '0:00';
+      }
+    });
 
     playBtn.addEventListener('click', () => {
       if (sound.playing()) {
@@ -85,32 +98,43 @@
       const minutes = Math.floor(sec / 60);
       const seconds = sec % 60;
       currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-      const progress = (sound.seek() / sound.duration()) * 100;
-      progressBar.style.width = `${progress}%`;
-
-      if (sound.playing()) {
-        requestAnimationFrame(updateTime);
-      }
+      if (sound.playing()) requestAnimationFrame(updateTime);
     }
 
     function updateDuration() {
-      const check = setInterval(() => {
-        if (sound.duration()) {
-          const dur = Math.floor(sound.duration());
-          const minutes = Math.floor(dur / 60);
-          const seconds = dur % 60;
-          durationEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-          clearInterval(check);
-        }
-      }, 100);
+      const dur = Math.floor(sound.duration());
+      const minutes = Math.floor(dur / 60);
+      const seconds = dur % 60;
+      durationEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    // Theme toggle
-    const themeToggle = document.getElementById('theme-toggle');
+    function animateProgress() {
+      const update = () => {
+        const seek = sound.seek() || 0;
+        const duration = sound.duration() || 1;
+        const percent = (seek / duration) * 100;
+        progressBar.style.width = `${percent}%`;
+        if (sound.playing()) requestAnimationFrame(update);
+      };
+      update();
+    }
+
+    // Перемотка по клику
+    progressContainer.addEventListener('click', function(e) {
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = sound.duration();
+      const seekTo = (clickX / width) * duration;
+      sound.seek(seekTo);
+      updateTime();
+      animateProgress();
+    });
+
+    // Переключение темы
+    const themeSwitch = document.getElementById('theme-switch');
     const themeIcon = document.getElementById('theme-icon');
 
-    themeToggle.addEventListener('change', () => {
+    themeSwitch.addEventListener('change', () => {
       document.body.classList.toggle('dark');
       themeIcon.textContent = document.body.classList.contains('dark') ? '🌙' : '🌞';
     });
