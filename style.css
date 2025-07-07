@@ -208,10 +208,10 @@ input:checked + .slider:before {
 }
 
 .banner-title {
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   color: var(--text-color);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 480px) {
