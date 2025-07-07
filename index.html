@@ -1,154 +1,26 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Player</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="image-wrapper">
-      <img src="cover/cover.jpg" alt="Обложка экспозиции" />
-    </div>
-    <div class="text-wrapper">
-      <h1>Крик - Эдвард Мунк</h1>
-      <p class="subtitle">МУЗЕЙ №1</p>
-    </div>
 
-    <div class="time-display">
-      <span id="current-time">0:00</span>
-      <span id="duration">0:00</span>
-    </div>
+  <!-- Верхняя часть — пустая -->
 
-    <div class="progress-bar-container" id="progress-container">
-      <div class="progress-bar" id="progress"></div>
-    </div>
-
-    <div class="player-controls">
-      <div class="play-wrapper">
-        <button id="play" aria-label="Воспроизвести или приостановить">
-          <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-          <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" style="display: none;">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="theme-toggle">
-        <span id="theme-icon">🌞</span>
-        <label class="switch">
-          <input type="checkbox" id="theme-switch">
-          <span class="slider round"></span>
-        </label>
+  <!-- Нижняя часть — медиаплеер -->
+  <div class="media-player">
+    <div class="player-content">
+      <div class="album-art"></div>
+      <div class="song-info">
+        <div class="title">Something About You</div>
+        <div class="artist">Majid Jordan</div>
       </div>
     </div>
-
-    <div id="loading">Загрузка аудио...</div>
-
-    <div class="banner">
-      <img src="banner.png" alt="Баннер">
-    </div>
-    <p class="banner-title">Посетите наш зал современных художников</p>
+    <div class="pause-button"></div>
   </div>
 
-  <script>
-    const playBtn = document.getElementById('play');
-    const playIcon = document.getElementById('play-icon');
-    const pauseIcon = document.getElementById('pause-icon');
-    const currentTime = document.getElementById('current-time');
-    const durationEl = document.getElementById('duration');
-    const progressBar = document.getElementById('progress');
-    const progressContainer = document.getElementById('progress-container');
-    const loading = document.getElementById('loading');
-
-    let isSeeking = false;
-
-    const sound = new Howl({
-      src: ['audio/audio.mp3'],
-      html5: true,
-      onload: () => {
-        loading.style.display = 'none';
-        updateDuration();
-        sound.play();
-      },
-      onplay: () => {
-        toggleIcons(true);
-        updateTime();
-        animateProgress();
-      },
-      onpause: () => toggleIcons(false),
-      onend: () => {
-        toggleIcons(false);
-        progressBar.style.width = '0%';
-        currentTime.textContent = '0:00';
-      }
-    });
-
-    playBtn.addEventListener('click', () => {
-      if (sound.playing()) {
-        sound.pause();
-      } else {
-        sound.play();
-      }
-    });
-
-    function toggleIcons(isPlaying) {
-      playIcon.style.display = isPlaying ? 'none' : 'inline';
-      pauseIcon.style.display = isPlaying ? 'inline' : 'none';
-    }
-
-    function updateTime() {
-      if (!isSeeking) {
-        const sec = Math.floor(sound.seek() || 0);
-        const minutes = Math.floor(sec / 60);
-        const seconds = sec % 60;
-        currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-      }
-      if (sound.playing()) requestAnimationFrame(updateTime);
-    }
-
-    function updateDuration() {
-      const dur = Math.floor(sound.duration());
-      const minutes = Math.floor(dur / 60);
-      const seconds = dur % 60;
-      durationEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    function animateProgress() {
-      const update = () => {
-        if (!isSeeking) {
-          const seek = sound.seek() || 0;
-          const duration = sound.duration() || 1;
-          const percent = (seek / duration) * 100;
-          progressBar.style.width = `${percent}%`;
-        }
-        if (sound.playing()) requestAnimationFrame(update);
-      };
-      update();
-    }
-
-    progressContainer.addEventListener('click', function (e) {
-      const rect = this.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const width = rect.width;
-      const percent = clickX / width;
-      const seekTo = percent * sound.duration();
-      sound.seek(seekTo);
-      updateTime();
-      animateProgress();
-    });
-
-    const themeSwitch = document.getElementById('theme-switch');
-    const themeIcon = document.getElementById('theme-icon');
-
-    themeSwitch.addEventListener('change', () => {
-      document.body.classList.toggle('dark');
-      themeIcon.textContent = document.body.classList.contains('dark') ? '🌙' : '🌞';
-    });
-  </script>
 </body>
 </html>
