@@ -1,184 +1,154 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Аудиоплеер</title>
-  <style>
-    :root {
-      --bg-color: #ffffff;
-      --text-color: #000000;
-      --accent-color: #5ebeff;
-    }
-
-    body.dark {
-      --bg-color: #121212;
-      --text-color: #ffffff;
-      --accent-color: #8acfff;
-    }
-
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      max-width: 360px;
-      width: 100%;
-      padding: 20px;
-      border-radius: 12px;
-      background-color: var(--bg-color);
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    .theme-toggle {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-    }
-
-    .play-wrapper {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .play-button {
-      position: relative;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: all 0.3s ease;
-    }
-
-    /* Треугольник - PLAY */
-    .play-button.play::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      border-left: 40px solid var(--accent-color);
-      border-top: 25px solid transparent;
-      border-bottom: 25px solid transparent;
-    }
-
-    /* Пауза - две палки */
-    .play-button.pause {
-      width: 40px;
-      height: 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .play-button.pause::before,
-    .play-button.pause::after {
-      content: "";
-      background-color: var(--accent-color);
-      width: 10px;
-      height: 100%;
-      display: block;
-      border-radius: 2px;
-    }
-
-    audio {
-      display: none;
-    }
-
-    .title {
-      font-size: 18px;
-      margin-top: 12px;
-      color: var(--text-color);
-    }
-
-    .dark-toggle {
-      background-color: var(--accent-color);
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    @media (max-width: 480px) {
-      .play-button.pause {
-        width: 30px;
-        height: 40px;
-      }
-
-      .play-button.pause::before,
-      .play-button.pause::after {
-        width: 8px;
-      }
-
-      .play-button.play::before {
-        border-left: 30px solid var(--accent-color);
-        border-top: 18px solid transparent;
-        border-bottom: 18px solid transparent;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
 <body>
-
   <div class="container">
-    <div class="theme-toggle">
-      <button class="dark-toggle" id="themeSwitch">🌙 Тема</button>
+    <div class="image-wrapper">
+      <img src="cover/cover.jpg" alt="Обложка экспозиции" />
+    </div>
+    <div class="text-wrapper">
+      <h1>Крик - Эдвард Мунк</h1>
+      <p class="subtitle">МУЗЕЙ №1</p>
     </div>
 
-    <div class="title">Аудиогид: Экспонат 1</div>
-
-    <div class="play-wrapper">
-      <button id="playButton" class="play-button play"></button>
+    <div class="time-display">
+      <span id="current-time">0:00</span>
+      <span id="duration">0:00</span>
     </div>
 
-    <audio id="audioPlayer" src="audio.mp3"></audio>
+    <div class="progress-bar-container" id="progress-container">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <div class="player-controls">
+      <div class="play-wrapper">
+        <button id="play" aria-label="Воспроизвести или приостановить">
+          <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" style="display: none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="theme-toggle">
+        <span id="theme-icon">🌞</span>
+        <label class="switch">
+          <input type="checkbox" id="theme-switch">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+    <div id="loading">Загрузка аудио...</div>
+
+    <div class="banner">
+      <img src="banner.jpg" alt="Баннер">
+    </div>
+    <p class="banner-title">Посетите наш зал современных художников</p>
   </div>
 
   <script>
-    const playBtn = document.getElementById('playButton');
-    const audio = document.getElementById('audioPlayer');
-    const themeSwitch = document.getElementById('themeSwitch');
-    let isPlaying = false;
+    const playBtn = document.getElementById('play');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const currentTime = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const progressBar = document.getElementById('progress');
+    const progressContainer = document.getElementById('progress-container');
+    const loading = document.getElementById('loading');
 
-    function togglePlayPause() {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        playBtn.classList.remove('play');
-        playBtn.classList.add('pause');
-        audio.play();
-      } else {
-        playBtn.classList.remove('pause');
-        playBtn.classList.add('play');
-        audio.pause();
+    let isSeeking = false;
+
+    const sound = new Howl({
+      src: ['audio/audio.mp3'],
+      html5: true,
+      onload: () => {
+        loading.style.display = 'none';
+        updateDuration();
+        sound.play();
+      },
+      onplay: () => {
+        toggleIcons(true);
+        updateTime();
+        animateProgress();
+      },
+      onpause: () => toggleIcons(false),
+      onend: () => {
+        toggleIcons(false);
+        progressBar.style.width = '0%';
+        currentTime.textContent = '0:00';
       }
+    });
+
+    playBtn.addEventListener('click', () => {
+      if (sound.playing()) {
+        sound.pause();
+      } else {
+        sound.play();
+      }
+    });
+
+    function toggleIcons(isPlaying) {
+      playIcon.style.display = isPlaying ? 'none' : 'inline';
+      pauseIcon.style.display = isPlaying ? 'inline' : 'none';
     }
 
-    playBtn.addEventListener('click', togglePlayPause);
+    function updateTime() {
+      if (!isSeeking) {
+        const sec = Math.floor(sound.seek() || 0);
+        const minutes = Math.floor(sec / 60);
+        const seconds = sec % 60;
+        currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      }
+      if (sound.playing()) requestAnimationFrame(updateTime);
+    }
 
-    // Сброс кнопки при завершении воспроизведения
-    audio.addEventListener('ended', () => {
-      isPlaying = false;
-      playBtn.classList.remove('pause');
-      playBtn.classList.add('play');
+    function updateDuration() {
+      const dur = Math.floor(sound.duration());
+      const minutes = Math.floor(dur / 60);
+      const seconds = dur % 60;
+      durationEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function animateProgress() {
+      const update = () => {
+        if (!isSeeking) {
+          const seek = sound.seek() || 0;
+          const duration = sound.duration() || 1;
+          const percent = (seek / duration) * 100;
+          progressBar.style.width = `${percent}%`;
+        }
+        if (sound.playing()) requestAnimationFrame(update);
+      };
+      update();
+    }
+
+    progressContainer.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      const percent = clickX / width;
+      const seekTo = percent * sound.duration();
+      sound.seek(seekTo);
+      updateTime();
+      animateProgress();
     });
 
-    // Переключение темы
-    themeSwitch.addEventListener('click', () => {
+    const themeSwitch = document.getElementById('theme-switch');
+    const themeIcon = document.getElementById('theme-icon');
+
+    themeSwitch.addEventListener('change', () => {
       document.body.classList.toggle('dark');
+      themeIcon.textContent = document.body.classList.contains('dark') ? '🌙' : '🌞';
     });
   </script>
-
 </body>
 </html>
