@@ -1,86 +1,92 @@
+/* Общие стили */
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  background-color: #fff;
-  color: #222;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #121212;
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  min-height: 100vh;
 }
 
+/* Контейнер */
 .container {
-  max-width: 480px;
-  width: 100%;
-  background: #f9f9f9;
+  background-color: #1e1e1e;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
+/* Обложка */
 .image-wrapper img {
   width: 100%;
-  display: block;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
-.text-wrapper {
-  padding: 1rem 1.5rem 0;
-}
-
+/* Заголовок и организация */
 .text-wrapper h1 {
-  font-size: 1.25rem;
-  margin: 0;
+  font-size: 1.5em;
+  margin: 10px 0 4px;
+  color: #ffffff;
 }
 
-.subtitle {
-  font-size: 0.95rem;
-  color: #777;
-  margin-top: 0.25rem;
+.text-wrapper .subtitle {
+  font-size: 0.95em;
+  color: #bbbbbb;
+  margin-bottom: 20px;
 }
 
+/* Прогресс-бар */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #333;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background-color: #00bcd4;
+  transition: width 0.25s ease;
+}
+
+/* Кнопка play/pause */
 .player-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+  margin-bottom: 20px;
 }
 
-.player-controls button {
-  background-color: #222;
+#play {
+  background-color: #333;
   border: none;
   border-radius: 50%;
-  width: 64px;
-  height: 64px;
+  padding: 16px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
-.player-controls svg {
-  width: 32px;
-  height: 32px;
+#play:hover {
+  background-color: #444;
 }
 
+#play svg {
+  display: inline;
+}
+
+/* Время */
 .time-display {
   display: flex;
   justify-content: space-between;
-  padding: 0 1.5rem 1rem;
-  font-size: 0.9rem;
-  color: #444;
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 600px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 720px;
-  }
+  font-size: 0.9em;
+  color: #ccc;
+  margin-top: -10px;
 }
