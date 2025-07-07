@@ -1,66 +1,94 @@
+/* Фон страницы */
 body {
   margin: 0;
-  padding: 0;
-  background-color: #e6f7ff;
+  background-color: #e6f7ff; /* светло-голубой фон */
   font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* плеер внизу */
 }
 
+/* Медиа-плеер */
 .media-player {
-  position: fixed;
-  bottom: 0;
+  background: white;
+  height: 100px; /* увеличенный размер */
   width: 100%;
-  height: 100px;
-  background: #ffffff;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 30px;
   box-sizing: border-box;
 }
 
+/* Контент плеера (арт + текст) */
+.player-content {
+  display: flex;
+  align-items: center;
+}
+
+/* Миниатюра альбома */
 .album-art {
   width: 70px;
   height: 70px;
-  border-radius: 5px;
-  background-image: url('album-thumbnail.jpg');
+  background-image: url('cover/cover.jpg');
   background-size: cover;
   background-position: center;
+  border-radius: 10px;
   flex-shrink: 0;
 }
 
+/* Текст песни и исполнителя */
 .song-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 15px;
-  flex-grow: 1;
-  min-width: 0;
+  margin-left: 20px;
 }
 
 .title {
   font-weight: bold;
   font-size: 24px;
   color: #333;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: 5px;
 }
 
 .artist {
   font-size: 18px;
   color: #666;
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
+/* Контейнер с прогресс-баром и кнопкой */
+.progress-ring {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+/* SVG кольцо */
+.ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: #ddd;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: #007bff;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* Кнопка паузы / проигрывания */
 .pause-button {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #ffffff;
   border: 2px solid #007bff;
@@ -69,68 +97,68 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  flex-shrink: 0;
-}
-
-.pause-button::before {
-  content: "||";
-  font-size: 24px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 18px;
   font-weight: bold;
   color: #007bff;
+  user-select: none;
 }
 
-.player-content {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  min-width: 0;
-}
-
-/* Адаптивность: планшеты */
+/* Адаптивность */
 @media (max-width: 768px) {
-  .title {
-    font-size: 16px;
-  }
-
-  .artist {
-    font-size: 14px;
-  }
-
-  .pause-button {
-    width: 36px;
-    height: 36px;
-  }
-
-  .pause-button::before {
-    font-size: 16px;
-  }
-}
-
-/* Адаптивность: смартфоны */
-@media (max-width: 480px) {
   .media-player {
-    padding: 0 10px;
+    height: 80px;
+    padding: 0 20px;
   }
-
   .album-art {
-    width: 36px;
-    height: 36px;
+    width: 50px;
+    height: 50px;
   }
-
   .title {
+    font-size: 18px;
+  }
+  .artist {
     font-size: 14px;
   }
-
-  .artist {
-    font-size: 12px;
+  .progress-ring {
+    width: 40px;
+    height: 40px;
   }
-
   .pause-button {
     width: 32px;
     height: 32px;
-  }
-
-  .pause-button::before {
     font-size: 14px;
+    top: 4px;
+    left: 4px;
+  }
+}
+
+@media (max-width: 400px) {
+  .media-player {
+    height: 70px;
+    padding: 0 15px;
+  }
+  .album-art {
+    width: 40px;
+    height: 40px;
+  }
+  .title {
+    font-size: 16px;
+  }
+  .artist {
+    font-size: 12px;
+  }
+  .progress-ring {
+    width: 35px;
+    height: 35px;
+  }
+  .pause-button {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    top: 3px;
+    left: 3px;
   }
 }
