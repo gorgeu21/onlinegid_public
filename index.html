@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Media Player</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
 </head>
 <body>
 
-  <!-- Верхняя часть — пустая -->
+  <!-- Верхняя пустая часть -->
 
-  <!-- Нижняя часть — медиаплеер -->
+  <!-- Медиа-плеер -->
   <div class="media-player">
     <div class="player-content">
       <div class="album-art"></div>
@@ -31,13 +31,13 @@
 
   <script>
     const sound = new Howl({
-      src: ['main/audio/audi.mp3'],
+      src: ['audio/audi.mp3'],
       html5: true,
-      autoplay: true,
+      autoplay: false,
       onplay: () => requestAnimationFrame(updateProgress),
     });
 
-    let isPlaying = true;
+    let isPlaying = false;
     const playPauseBtn = document.getElementById('playPauseBtn');
     const ringProgress = document.querySelector('.ring-progress');
     const radius = ringProgress.r.baseVal.value;
@@ -54,7 +54,7 @@
     function updateProgress() {
       const seek = sound.seek();
       const duration = sound.duration();
-      if (typeof seek === 'number') {
+      if (typeof seek === 'number' && duration > 0) {
         const progress = seek / duration;
         setProgress(progress);
         if (sound.playing()) {
@@ -79,51 +79,6 @@
 
     updateButton();
   </script>
-
-  <style>
-    .album-art {
-      background-image: url('main/cover/cover.jpg');
-    }
-    .progress-ring {
-      position: relative;
-      width: 50px;
-      height: 50px;
-    }
-    .ring {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: rotate(-90deg);
-    }
-    .ring-bg {
-      fill: none;
-      stroke: #ddd;
-    }
-    .ring-progress {
-      fill: none;
-      stroke: #007bff;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 0.1s linear;
-    }
-    .pause-button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 2px solid #007bff;
-      box-shadow: 0 5px 10px rgba(0, 123, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #007bff;
-    }
-  </style>
 
 </body>
 </html>
