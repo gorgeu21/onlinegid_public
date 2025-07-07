@@ -5,96 +5,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Аудиогид</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
-<body>
-  <div class="main-container">
-    <!-- Медиа блок -->
-    <section class="player-section">
-      <div class="player-container">
-        <img src="cover.jpg" alt="Обложка" class="cover" id="cover"/>
-        <h1 id="track-title">«Крик» Эдвард Мунк (1863–1944)</h1>
-        <div class="controls">
-          <button id="playPauseBtn">▶</button>
-          <input type="range" id="progressBar" value="0" step="0.1" min="0" max="100"/>
-        </div>
-        <div class="time-display">
-          <span id="currentTime">00:00</span> / <span id="duration">00:00</span>
-        </div>
-      </div>
-    </section>
+<body class="light">
 
-    <!-- Баннер -->
-    <section class="banner-section">
-      <div class="banner">
-        <img src="banner.png" alt="Баннер" class="banner-image" />
-        <p class="banner-text">
-          МУЗЕЙ Х М22!
-        </p>
-      </div>
-    </section>
+  <div class="theme-toggle">
+    <label class="switch">
+      <input type="checkbox" id="theme-switch">
+      <span class="slider round"></span>
+    </label>
+    <span>Тёмная тема</span>
+  </div>
+
+  <div class="container">
+    <div class="image-wrapper">
+      <img src="cover/cover.jpg" alt="Обложка экспозиции" />
+    </div>
+    <div class="text-wrapper">
+      <h1>{{title}}</h1>
+      <p class="subtitle">{{organization}}</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+
+    <div class="player-controls">
+      <button id="play" aria-label="Воспроизвести или приостановить">
+        <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24" style="display: none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="time-display">
+      <span id="current-time">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
   </div>
 
   <script>
-    let sound;
-    let isPlaying = false;
-    let updateInterval;
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const playPauseBtn = document.getElementById("playPauseBtn");
-      const progressBar = document.getElementById("progressBar");
-      const currentTimeDisplay = document.getElementById("currentTime");
-      const durationDisplay = document.getElementById("duration");
-
-      playPauseBtn.addEventListener("click", () => {
-        if (!sound) {
-          sound = new Howl({
-            src: ["audio.mp3"],
-            html5: true,
-            onend: () => {
-              playPauseBtn.textContent = "▶";
-              isPlaying = false;
-              clearInterval(updateInterval);
-            },
-            onload: () => {
-              const totalSeconds = Math.floor(sound.duration());
-              durationDisplay.textContent = formatTime(totalSeconds);
-            }
-          });
-        }
-
-        if (!isPlaying) {
-          sound.play();
-          playPauseBtn.textContent = "⏸";
-          updateInterval = setInterval(() => {
-            const seek = sound.seek();
-            const duration = sound.duration();
-            if (typeof seek === 'number') {
-              progressBar.value = (seek / duration) * 100;
-              currentTimeDisplay.textContent = formatTime(Math.floor(seek));
-            }
-          }, 500);
-        } else {
-          sound.pause();
-          playPauseBtn.textContent = "▶";
-          clearInterval(updateInterval);
-        }
-        isPlaying = !isPlaying;
-      });
-
-      progressBar.addEventListener("input", () => {
-        if (sound && sound.playing()) {
-          const seekTo = sound.duration() * (progressBar.value / 100);
-          sound.seek(seekTo);
-        }
-      });
+    const sound = new Howl({
+      src: ['audio/audio.mp3'],
+      html5: true,
+      onplay: () => {
+        toggleIcons(true);
+        updateTime();
+        updateDuration();
+      },
+      onpause: () => toggleIcons(false),
+      onend: () => toggleIcons(false)
     });
 
-    function formatTime(seconds) {
-      const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-      const secs = String(seconds % 60).padStart(2, "0");
-      return `${mins}:${secs}`;
+    const playBtn = document.getElementById('play');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const currentTime = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const progressEl = document.querySelector('.progress');
+
+    playBtn.addEventListener('click', () => {
+      if (sound.playing()) {
+        sound.pause();
+      } else {
+        sound.play();
+      }
+    });
+
+    function toggleIcons(isPlaying) {
+      playIcon.style.display = isPlaying ? 'none' : 'inline';
+      pauseIcon.style.display = isPlaying ? 'inline' : 'none';
     }
+
+    function updateTime() {
+      const sec = Math.floor(sound.seek() || 0);
+      const duration = sound.duration() || 1;
+      const progress = (sound.seek() / duration) * 100;
+      progressEl.style.width = `${progress}%`;
+
+      const minutes = Math.floor(sec / 60);
+      const seconds = sec % 60;
+      currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (sound.playing()) {
+        requestAnimationFrame(updateTime);
+      }
+    }
+
+    function updateDuration() {
+      const check = setInterval(() => {
+        if (sound.duration()) {
+          const dur = Math.floor(sound.duration());
+          const minutes = Math.floor(dur / 60);
+          const seconds = dur % 60;
+          durationEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+          clearInterval(check);
+        }
+      }, 100);
+    }
+
+    // Theme toggle
+    const themeSwitch = document.getElementById('theme-switch');
+    const body = document.body;
+
+    themeSwitch.addEventListener('change', () => {
+      body.classList.toggle('dark');
+      body.classList.toggle('light');
+    });
   </script>
 </body>
 </html>
