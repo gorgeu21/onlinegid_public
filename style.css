@@ -46,13 +46,38 @@ body.dark {
   color: #666;
 }
 
-.player-controls {
+.time-display {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
   padding: 0 16px;
-  margin-top: 12px;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #ccc;
+  border-radius: 3px;
+  height: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #007bff;
+  transition: width 0.2s linear;
+}
+
+.player-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
 }
 
 .play-wrapper button {
@@ -67,36 +92,6 @@ body.dark {
 
 .play-wrapper button:hover {
   background-color: #0056b3;
-}
-
-.time-display {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 16px;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.progress-bar {
-  height: 6px;
-  background-color: #ccc;
-  border-radius: 3px;
-  width: 100%;
-  margin-bottom: 12px;
-  position: relative;
-  overflow: hidden;
-}
-
-.progress-bar::after {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 0%;
-  background-color: #007bff;
-  left: 0;
-  top: 0;
-  transition: width 0.2s linear;
 }
 
 .theme-toggle {
@@ -151,7 +146,12 @@ input:checked + .slider:before {
   transform: translateX(18px);
 }
 
-/* Адаптивность */
+#loading {
+  font-size: 14px;
+  margin-top: 12px;
+  color: #888;
+}
+
 @media (max-width: 480px) {
   .container {
     padding: 12px;
@@ -181,5 +181,14 @@ input:checked + .slider:before {
 
   input:checked + .slider:before {
     transform: translateX(16px);
+  }
+
+  .player-controls {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .play-wrapper button {
+    padding: 10px;
   }
 }
