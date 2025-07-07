@@ -143,5 +143,12 @@
       themeIcon.textContent = document.body.classList.contains('dark') ? '🌙' : '🌞';
     });
   </script>
+  <script>
+  const playButton = document.querySelector('.play-button');
+
+  playButton.addEventListener('click', () => {
+    playButton.classList.toggle('is-playing');
+  });
+</script>
 </body>
 </html>
