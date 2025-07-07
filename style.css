@@ -192,9 +192,9 @@ input:checked + .slider:before {
 }
 
 .banner {
-  margin-top: auto;
+  margin-top: 16px;
   margin-bottom: 16px;
-  width: 90%;
+  width: 60%;
   border-radius: 12px;
   overflow: hidden;
 }
