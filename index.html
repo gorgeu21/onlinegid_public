@@ -25,7 +25,7 @@
         <circle class="ring-bg" cx="25" cy="25" r="22" stroke-width="4" />
         <circle class="ring-progress" cx="25" cy="25" r="22" stroke-width="4" />
       </svg>
-      <div class="pause-button" id="playPauseBtn"></div>
+      <button class="play-pause-btn" id="playPauseBtn" aria-label="Play/Pause"></button>
     </div>
   </div>
 
@@ -64,10 +64,16 @@
     }
 
     function updateButton() {
-      playPauseBtn.innerText = isPlaying ? '❚❚' : '▶';
+      if (isPlaying) {
+        playPauseBtn.classList.add('pause');
+        playPauseBtn.classList.remove('play');
+      } else {
+        playPauseBtn.classList.add('play');
+        playPauseBtn.classList.remove('pause');
+      }
     }
 
-    playPauseBtn.addEventListener('click', function () {
+    playPauseBtn.addEventListener('click', () => {
       if (isPlaying) {
         sound.pause();
       } else {
