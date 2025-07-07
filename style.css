@@ -44,14 +44,16 @@ body {
 }
 
 .image-wrapper {
-  height: 360px;
+  height: 260px; /* было 360px */
   overflow: hidden;
+  border-radius: 16px; /* закругление обложки */
 }
 
 .image-wrapper img {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 16px; /* чтобы и сама картинка была закруглённой */
 }
 
 .text-wrapper {
@@ -87,22 +89,24 @@ body {
 }
 
 .play-wrapper button {
-  background-color: var(--accent-color);
+  background: transparent;
   border: none;
-  border-radius: 50%;
-  padding: 26px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  width: 0;
+  height: 0;
+  border-left: 40px solid var(--accent-color); /* создаём треугольник */
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  padding: 0;
+  transition: border-left-color 0.3s ease;
 }
 
 .play-wrapper button:hover {
-  background-color: #4ab0e0;
+  border-left-color: #4ab0e0;
 }
 
 .play-wrapper svg {
-  width: 102px;
-  height: 102px;
-  fill: white;
+  display: none; /* SVG больше не нужен, отключаем */
 }
 
 .theme-toggle {
