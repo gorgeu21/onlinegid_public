@@ -14,55 +14,57 @@
       <img src="cover.jpg" alt="Обложка экспоната" class="cover-image" />
     </div>
 
-    <!-- Заголовок -->
+    <!-- Заголовки -->
     <div class="title-section">
       <h2 class="title">Вступление</h2>
       <p class="subtitle">Зал 1. Неизвестная Куса</p>
     </div>
 
     <!-- Плеер -->
-    <div class="player-section">
-      <div class="controls">
-        <button id="playPauseBtn" class="control-btn play-pause-btn">
-          ▶️
-        </button>
+    <div class="player-container">
+      <div class="player-controls">
+        <button id="playPauseBtn" class="control-btn">▶️</button>
       </div>
-      <div class="time-display">
+
+      <div class="progress-container">
         <span id="currentTime">0:00</span>
-        <span id="duration">1:49</span>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <span id="duration">0:00</span>
       </div>
     </div>
   </div>
 
   <script>
-    let sound = new Howl({
+    const playBtn = document.getElementById('playPauseBtn');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const progressFill = document.getElementById('progressFill');
+
+    let isPlaying = false;
+    let updateInterval;
+
+    const sound = new Howl({
       src: ['audio-file.mp3'],
       html5: true,
       onload: () => {
-        const duration = formatTime(Math.floor(sound.duration()));
-        document.getElementById('duration').textContent = duration;
+        durationEl.textContent = formatTime(Math.floor(sound.duration()));
       },
       onend: () => {
         isPlaying = false;
         playBtn.textContent = '▶️';
         clearInterval(updateInterval);
+        updateProgress(); // Обновить в конец
       }
     });
-
-    let isPlaying = false;
-    let updateInterval;
-    const playBtn = document.getElementById('playPauseBtn');
-    const currentTimeEl = document.getElementById('currentTime');
 
     playBtn.addEventListener('click', () => {
       if (!isPlaying) {
         sound.play();
         isPlaying = true;
         playBtn.textContent = '⏸️';
-        updateInterval = setInterval(() => {
-          const current = formatTime(Math.floor(sound.seek()));
-          currentTimeEl.textContent = current;
-        }, 500);
+        updateInterval = setInterval(updateProgress, 500);
       } else {
         sound.pause();
         isPlaying = false;
@@ -70,6 +72,16 @@
         clearInterval(updateInterval);
       }
     });
+
+    function updateProgress() {
+      const current = sound.seek();
+      const duration = sound.duration();
+      currentTimeEl.textContent = formatTime(Math.floor(current));
+      if (duration) {
+        const percent = (current / duration) * 100;
+        progressFill.style.width = percent + '%';
+      }
+    }
 
     function formatTime(seconds) {
       const mins = Math.floor(seconds / 60);
