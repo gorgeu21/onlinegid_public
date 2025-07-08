@@ -93,6 +93,7 @@
 
     .dark-theme .media-player {
       background: #1e1e1e;
+      box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.05);
     }
 
     .dark-theme .title {
@@ -109,56 +110,54 @@
       height: 48px;
       border-radius: 50%;
       background: none;
-      border: none;
-      cursor: pointer;
+      border: 2px solid #007bff;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 18px;
+      color: #007bff;
     }
 
-    .pause-button .progress-ring {
+    .pause-button.playing::before {
+      content: "❚❚";
+    }
+
+    .pause-button:not(.playing)::before {
+      content: "▶";
+    }
+
+    .pause-button svg {
       position: absolute;
-      width: 100%;
-      height: 100%;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
       transform: rotate(-90deg);
     }
 
-    .pause-button .progress-ring circle {
+    .pause-button circle.bg {
       fill: none;
+      stroke: #e0e0e0;
       stroke-width: 3;
     }
 
-    .pause-button .progress-ring .bg {
-      stroke: #e0e0e0;
-    }
-
-    .pause-button .progress-ring .progress {
+    .pause-button circle.progress {
+      fill: none;
       stroke: #007bff;
+      stroke-width: 3;
       stroke-linecap: round;
       transition: stroke-dashoffset 0.1s linear;
     }
 
-    .pause-button svg.icon {
-      position: relative;
-      width: 20px;
-      height: 20px;
-      z-index: 1;
+    .dark-theme .pause-button {
+      border-color: #ffa500;
+      color: #ffa500;
     }
 
-    .pause-button svg.icon .play-icon,
-    .pause-button svg.icon .pause-icon {
-      display: none;
-      fill: #007bff;
-    }
-
-    .pause-button.playing svg.icon .pause-icon {
-      display: block;
-    }
-
-    .pause-button:not(.playing) svg.icon .play-icon {
-      display: block;
+    .dark-theme .pause-button circle.progress {
+      stroke: #ffa500;
     }
 
     .player-controls {
@@ -220,13 +219,9 @@
     <div class="player-controls">
       <div class="theme-toggle" id="themeToggle">☼</div>
       <button class="pause-button" id="playPauseBtn">
-        <svg class="progress-ring" viewBox="0 0 48 48">
+        <svg viewBox="0 0 48 48">
           <circle class="bg" cx="24" cy="24" r="20" />
           <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
-        </svg>
-        <svg class="icon" viewBox="0 0 48 48">
-          <path class="play-icon" d="M18 16 L32 24 L18 32 Z" />
-          <path class="pause-icon" d="M18 16 H22 V32 H18 Z M26 16 H30 V32 H26 Z" />
         </svg>
       </button>
     </div>
@@ -259,9 +254,8 @@
 
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
-        audio.play()
-          .then(() => playPauseBtn.classList.add('playing'))
-          .catch(err => console.error('Playback error:', err));
+        audio.play().catch(console.error);
+        playPauseBtn.classList.add('playing');
       } else {
         audio.pause();
         playPauseBtn.classList.remove('playing');
