@@ -327,12 +327,12 @@ header {
 .home-icon svg {
   width: 24px;
   height: 24px;
-  color: #fff;
+  color: #007bff;
   transition: transform 0.2s;
 }
 .home-icon:hover svg {
   transform: scale(1.1);
-  color: #ccc;
+  color: #ffa500;
 }
 
 }
