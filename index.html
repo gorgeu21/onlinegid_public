@@ -1,247 +1,379 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Аудиогид</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Player</title>
   <style>
+    :root {
+      --player-height: 56px;
+    }
+
     body {
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background-color: #f8f8f8;
-      color: #111;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      transition: background-color 0.3s, color 0.3s;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      background: #f5f5f5;
     }
 
-    .dark-theme {
-      background-color: #1e1e1e;
-      color: #f0f0f0;
+    header {
+      height: var(--player-height);
+      line-height: var(--player-height);
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
-    .chat-feed {
-      flex: 1;
-      padding: 1rem;
+    .content {
+      padding: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
       display: grid;
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 24px;
     }
 
     .card {
-      background-color: #fff;
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
       display: flex;
-      gap: 1rem;
-      transition: background-color 0.3s;
-    }
-
-    .dark-theme .card {
-      background-color: #2a2a2a;
+      flex-direction: column;
     }
 
     .card img {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      aspect-ratio: 16 / 9;
       object-fit: cover;
-      border-radius: 12px;
+      display: block;
     }
 
     .card-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 24px;
+      flex-grow: 1;
     }
 
-    .card-content h3 {
-      margin: 0 0 0.25rem;
-      font-size: 1.1rem;
-    }
-
-    .card-content p {
-      margin: 0;
-      font-size: 0.9rem;
-    }
-
-    .player-bar {
+    .media-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: var(--player-height);
+      background: #f0f0f0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 1rem;
-      background-color: #fff;
-      border-top: 1px solid #ddd;
-      transition: background-color 0.3s;
-    }
-
-    .dark-theme .player-bar {
-      background-color: #2a2a2a;
-      border-top: 1px solid #444;
-    }
-
-    .player-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .player-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-
-    .player-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .player-text h4 {
-      margin: 0;
-      font-size: 0.95rem;
-    }
-
-    .player-text span {
-      font-size: 0.8rem;
-      color: #666;
-    }
-
-    .dark-theme .player-text span {
-      color: #aaa;
-    }
-
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .play-btn {
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: inherit;
+      padding: 0 16px;
+      box-sizing: border-box;
+      z-index: 999;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.1);
     }
 
     .theme-toggle {
-      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: none;
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      cursor: pointer;
+      font-size: 20px;
+      color: #ffa500;
     }
 
-    .theme-toggle svg {
-      display: none;
-      width: 20px;
-      height: 20px;
-      transition: opacity 0.3s;
+    .dark-theme {
+      background-color: #121212;
+      color: #f0f0f0;
     }
 
-    .theme-toggle .sun {
-      display: block;
+    .dark-theme .media-player {
+      background: #1e1e1e;
+      box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.05);
     }
 
-    .dark-theme .theme-toggle .sun {
-      display: none;
+    .dark-theme .title {
+      color: #f0f0f0;
     }
 
-    .dark-theme .theme-toggle .moon {
-      display: block;
+    .dark-theme .artist {
+      color: #ccc;
+    }
+
+    .pause-button {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #007bff;
+    }
+
+    .pause-button::before {
+      font-size: 22px;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pause-button.playing::before {
+      content: "❚❚";
+    }
+
+    .pause-button:not(.playing)::before {
+      content: "▶";
+    }
+
+    .pause-button svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 52px;
+      height: 52px;
+      transform: rotate(-90deg);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .pause-button circle.bg {
+      fill: none;
+      stroke: #e0e0e0;
+      stroke-width: 3;
+    }
+
+    .pause-button circle.progress {
+      fill: none;
+      stroke: #007bff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    .dark-theme .pause-button {
+      color: #ffa500;
+    }
+
+    .dark-theme .pause-button circle.progress {
+      stroke: #ffa500;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .player-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .album-art {
+      width: 44px;
+      height: 44px;
+      border-radius: 5px;
+      background-image: url('album-thumbnail.jpg');
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .song-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .title {
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .artist {
+      font-size: 13px;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+
+      .media-player {
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        gap: 16px;
+        height: auto;
+        box-sizing: border-box;
+        border-radius: 16px 16px 0 0;
+      }
+
+      .player-content {
+        flex: 1 1 60%;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        overflow: hidden;
+      }
+
+      .player-controls {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: nowrap;
+      }
+
+      .pause-button,
+      .theme-toggle {
+        flex-shrink: 0;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+      }
+
+      .pause-button svg {
+        width: 52px;
+        height: 52px;
+      }
+
+      .pause-button::before {
+        font-size: 22px;
+        line-height: 1;
+        position: relative;
+        z-index: 2;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="chat-feed">
+  <header>Музыкальные новости</header>
+  <main class="content">
     <div class="card">
-      <img src="cover/news1.jpg" alt="Обложка 1">
+      <img src="cover/news1.jpg" alt="Arctic Monkeys" />
       <div class="card-content">
-        <h3>Заголовок экспоната 1</h3>
-        <p>Описание для экспоната 1. Краткое введение в аудиогид.</p>
+        <h2>Новый альбом от Arctic Monkeys</h2>
+        <p>Группа выпустила свой долгожданный релиз, который уже взорвал чарты по всему миру.</p>
       </div>
     </div>
     <div class="card">
-      <img src="cover/news2.jpg" alt="Обложка 2">
+      <img src="cover/news2.jpg" alt="Billie Eilish" />
       <div class="card-content">
-        <h3>Заголовок экспоната 2</h3>
-        <p>Описание для экспоната 2. Уникальные факты и подробности.</p>
+        <h2>Интервью с Billie Eilish</h2>
+        <p>Billie рассказала о своём творческом пути, новой музыке и жизни вне сцены.</p>
       </div>
     </div>
     <div class="card">
-      <img src="cover/news3.jpg" alt="Обложка 3">
+      <img src="cover/news3.jfif" alt="Top Tracks" />
       <div class="card-content">
-        <h3>Заголовок экспоната 3</h3>
-        <p>Описание для экспоната 3. Что вы услышите в аудиофайле.</p>
+        <h2>10 лучших треков недели</h2>
+        <p>Отбор самых горячих новинок от музыкальных редакторов — послушайте, прежде чем они станут мейнстримом.</p>
       </div>
     </div>
     <div class="card">
-      <img src="cover/news4.jpg" alt="Обложка 4">
+      <img src="cover/news4.jfif" alt="Festivals" />
       <div class="card-content">
-        <h3>Заголовок экспоната 4</h3>
-        <p>Описание для экспоната 4. Познавательные факты и исторические данные.</p>
+        <h2>Грядущие фестивали лета</h2>
+        <p>Планируете путешествия? Узнайте, где выступят ваши любимые исполнители этим летом.</p>
       </div>
     </div>
     <div class="card">
-      <img src="cover/news5.jpg" alt="Обложка 5">
+      <img src="cover/news5.jpg" alt="Playlist" />
       <div class="card-content">
-        <h3>Заголовок экспоната 5</h3>
-        <p>Описание для экспоната 5. Что стоит знать перед прослушиванием.</p>
+        <h2>Плейлист месяца</h2>
+        <p>Кураторы подготовили подборку композиций, идеально подходящих для летнего настроения.</p>
       </div>
     </div>
-  </div>
+  </main>
 
-  <div class="player-bar">
-    <div class="player-info">
-      <img src="cover/news1.jpg" alt="Обложка трека">
-      <div class="player-text">
-        <h4>Заголовок экспоната 1</h4>
-        <span>Аудиогид</span>
+  <div class="media-player">
+    <div class="player-content">
+      <div class="album-art"></div>
+      <div class="song-info">
+        <div class="title">Something About You</div>
+        <div class="artist">Majid Jordan</div>
       </div>
     </div>
-    <div class="controls">
-      <button class="play-btn" id="playBtn">▶️</button>
-      <div class="theme-toggle" id="themeToggle">
-        <svg class="sun" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="5" />
-          <line x1="12" y1="1" x2="12" y2="3" />
-          <line x1="12" y1="21" x2="12" y2="23" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-          <line x1="1" y1="12" x2="3" y2="12" />
-          <line x1="21" y1="12" x2="23" y2="12" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    <div class="player-controls">
+      <div class="theme-toggle" id="themeToggle"></div>
+      <button class="pause-button" id="playPauseBtn">
+        <svg viewBox="0 0 48 48">
+          <circle class="bg" cx="24" cy="24" r="20" />
+          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
         </svg>
-        <svg class="moon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-        </svg>
-      </div>
+      </button>
     </div>
   </div>
 
   <audio id="audio" src="audio/audio.mp3"></audio>
 
   <script>
-    const playBtn = document.getElementById('playBtn');
-    const audio = document.getElementById('audio');
-    const themeToggle = document.getElementById('themeToggle');
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      toggle.innerHTML = ''; // не отображаем ☼/◐
+    });
 
-    playBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playBtn.textContent = '⏸️';
+    const audio = document.getElementById('audio');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressCircle = playPauseBtn.querySelector('circle.progress');
+    const radius = 20;
+    const circumference = 2 * Math.PI * radius;
+
+    progressCircle.style.strokeDasharray = `${circumference}`;
+    progressCircle.style.strokeDashoffset = `${circumference}`;
+
+    function updateProgress() {
+      if (audio.duration) {
+        const percent = audio.currentTime / audio.duration;
+        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+      }
+    }
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused || audio.ended) {
+        audio.play().then(() => {
+          playPauseBtn.classList.add('playing');
+        }).catch(console.error);
       } else {
         audio.pause();
-        playBtn.textContent = '▶️';
+        playPauseBtn.classList.remove('playing');
       }
     });
 
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', () => {
+      playPauseBtn.classList.remove('playing');
+      progressCircle.style.strokeDashoffset = `${circumference}`;
     });
   </script>
 </body>
