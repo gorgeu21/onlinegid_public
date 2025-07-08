@@ -100,42 +100,56 @@
       color: #ccc;
     }
 
-    .dark-theme .pause-button {
-      background: none;
-      border: 2px solid #ffa500;
-    }
-
-    .dark-theme .pause-button::before {
-      color: #ffa500;
+    .dark-theme .pause-button circle.progress {
+      stroke: #ffa500;
     }
 
     .pause-button {
+      position: relative;
       width: 48px;
       height: 48px;
       border-radius: 50%;
       background: none;
-      border: 2px solid #007bff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: none;
       cursor: pointer;
       flex-shrink: 0;
     }
 
-    .pause-button::before {
-      content: "▶";
-      font-family: Arial, sans-serif;
-      font-size: 18px;
-      font-weight: bold;
-      color: #007bff;
+    .pause-button svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
     }
 
-    .pause-button.paused::before {
-      content: "❙❙";
+    .pause-button circle.bg {
+      fill: none;
+      stroke: #e0e0e0;
+      stroke-width: 3;
     }
 
-    .dark-theme .theme-toggle {
-      color: #ccc;
+    .pause-button circle.progress {
+      fill: none;
+      stroke: #007bff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    .pause-button g.icon {
+      transform: rotate(90deg);
+      transform-origin: center;
+    }
+
+    .pause-button svg path {
+      fill: #007bff;
+    }
+
+    .pause-button.paused svg path.play-icon {
+      display: none;
+    }
+
+    .pause-button:not(.paused) svg path.pause-icon {
+      display: none;
     }
 
     .player-controls {
@@ -196,7 +210,16 @@
     </div>
     <div class="player-controls">
       <div class="theme-toggle" id="themeToggle">☼</div>
-      <div class="pause-button" id="playPauseBtn"></div>
+      <button class="pause-button" id="playPauseBtn">
+        <svg viewBox="0 0 48 48">
+          <circle class="bg" cx="24" cy="24" r="20" />
+          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+          <g class="icon">
+            <path class="play-icon" d="M20 16 L32 24 L20 32 Z" />
+            <path class="pause-icon" d="M19 16 H22 V32 H19 Z M26 16 H29 V32 H26 Z" />
+          </g>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -211,6 +234,17 @@
 
     const audio = document.getElementById('audio');
     const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressCircle = playPauseBtn.querySelector('circle.progress');
+    const radius = 20;
+    const circumference = 2 * Math.PI * radius;
+
+    progressCircle.style.strokeDasharray = `${circumference}`;
+    progressCircle.style.strokeDashoffset = `${circumference}`;
+
+    function updateProgress() {
+      const percent = audio.currentTime / audio.duration;
+      progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+    }
 
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
@@ -220,6 +254,12 @@
         audio.pause();
         playPauseBtn.classList.remove('paused');
       }
+    });
+
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', () => {
+      playPauseBtn.classList.remove('paused');
+      progressCircle.style.strokeDashoffset = `${circumference}`;
     });
   </script>
 </body>
