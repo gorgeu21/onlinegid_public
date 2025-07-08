@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   padding: 0;
@@ -18,6 +19,7 @@ body {
   justify-content: space-between;
   padding: 0 20px;
   box-sizing: border-box;
+  z-index: 1000;
 }
 
 .album-art {
@@ -41,7 +43,7 @@ body {
 
 .title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   color: #333;
   line-height: 1.2;
   white-space: nowrap;
@@ -50,7 +52,7 @@ body {
 }
 
 .artist {
-  font-size: 16px;
+  font-size: 13px;
   color: #666;
   margin-top: 2px;
   white-space: nowrap;
@@ -59,6 +61,7 @@ body {
 }
 
 .pause-button {
+  position: relative;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -70,13 +73,39 @@ body {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  font-size: 18px;
+  color: #007bff;
 }
 
 .pause-button::before {
-  content: "||";
-  font-size: 18px;
-  font-weight: bold;
-  color: #007bff;
+  content: "▶";
+}
+
+.pause-button.playing::before {
+  content: "❚❚";
+}
+
+.pause-button svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pause-button circle.bg {
+  fill: none;
+  stroke: #e0e0e0;
+  stroke-width: 3;
+}
+
+.pause-button circle.progress {
+  fill: none;
+  stroke: #007bff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
 }
 
 .player-content {
@@ -89,11 +118,11 @@ body {
 /* Адаптивность: планшеты */
 @media (max-width: 768px) {
   .title {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .artist {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .pause-button {
