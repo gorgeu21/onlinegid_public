@@ -100,10 +100,6 @@
       color: #ccc;
     }
 
-    .dark-theme .pause-button circle.progress {
-      stroke: #ffa500;
-    }
-
     .pause-button {
       position: relative;
       width: 48px;
@@ -135,21 +131,29 @@
       transition: stroke-dashoffset 0.1s linear;
     }
 
-    .pause-button g.icon {
+    .pause-button .icon {
       transform: rotate(90deg);
       transform-origin: center;
     }
 
-    .pause-button svg path {
+    .pause-button .icon path {
       fill: #007bff;
     }
 
-    .pause-button.paused svg path.play-icon {
+    .pause-button .play-icon {
+      display: block;
+    }
+
+    .pause-button .pause-icon {
       display: none;
     }
 
-    .pause-button:not(.paused) svg path.pause-icon {
+    .pause-button.paused .play-icon {
       display: none;
+    }
+
+    .pause-button.paused .pause-icon {
+      display: block;
     }
 
     .player-controls {
@@ -242,13 +246,15 @@
     progressCircle.style.strokeDashoffset = `${circumference}`;
 
     function updateProgress() {
-      const percent = audio.currentTime / audio.duration;
-      progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+      if (audio.duration) {
+        const percent = audio.currentTime / audio.duration;
+        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+      }
     }
 
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
-        audio.play();
+        audio.play().catch(err => console.log(err));
         playPauseBtn.classList.add('paused');
       } else {
         audio.pause();
