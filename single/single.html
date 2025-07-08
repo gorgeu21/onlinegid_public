@@ -1,28 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Single View</title>
-  <style>
-    /* Вставь сюда CSS как раньше, не забудь подменить обложку на иконку */
-  </style>
+  <title>Материал</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>Музыкальные новости</header>
+  <header>Просмотр</header>
 
   <main class="single-content">
-    <img src="cover/news1.jpg" alt="Arctic Monkeys" />
-    <h1>Новый альбом от Arctic Monkeys</h1>
-    <p>Группа выпустила долгожданный релиз с узнаваемым звучанием и экспериментами.</p>
+    <img src="cover/news1.jpg" alt="Обложка" />
+    <h1>Arctic Monkeys</h1>
+    <p>Этот альбом сочетает в себе атмосферу раннего творчества группы и новые идеи.</p>
   </main>
 
   <div class="media-player">
     <div class="player-content">
-      <a href="index.html" id="backHome">
-        <div class="album-art" style="background: none; font-size: 20px; color: #555; display:flex;align-items:center;justify-content:center;">
-          🏠
-        </div>
+      <a href="index.html">
+        <div class="album-art home-icon">🏠</div>
       </a>
       <div class="song-info">
         <div class="title">Something About You</div>
@@ -30,7 +26,7 @@
       </div>
     </div>
     <div class="player-controls">
-      <div class="theme-toggle" id="themeToggle"></div>
+      <div class="theme-toggle" id="themeToggle">◐</div>
       <button class="pause-button" id="playPauseBtn">
         <svg viewBox="0 0 48 48">
           <circle class="bg" cx="24" cy="24" r="20" />
@@ -42,62 +38,6 @@
 
   <audio id="audio" src="audio/audio.mp3"></audio>
 
-  <script>
-    const toggle = document.getElementById('themeToggle');
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      toggle.innerHTML = document.body.classList.contains('dark-theme') ? '☼' : '◐';
-    });
-    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '☼' : '◐';
-
-    const audio = document.getElementById('audio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressCircle = playPauseBtn.querySelector('circle.progress');
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
-    progressCircle.style.strokeDasharray = `${circumference}`;
-    progressCircle.style.strokeDashoffset = `${circumference}`;
-
-    function updateProgress() {
-      if (audio.duration) {
-        const percent = audio.currentTime / audio.duration;
-        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
-      }
-    }
-
-    function loadFromSession() {
-      const time = sessionStorage.getItem('audio-time');
-      const isPlaying = sessionStorage.getItem('audio-playing');
-      if (time) audio.currentTime = parseFloat(time);
-      if (isPlaying === 'true') audio.play();
-    }
-
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused || audio.ended) {
-        audio.play();
-        playPauseBtn.classList.add('playing');
-      } else {
-        audio.pause();
-        playPauseBtn.classList.remove('playing');
-      }
-    });
-
-    audio.addEventListener('timeupdate', () => {
-      updateProgress();
-      sessionStorage.setItem('audio-time', audio.currentTime);
-    });
-
-    audio.addEventListener('play', () => {
-      playPauseBtn.classList.add('playing');
-      sessionStorage.setItem('audio-playing', 'true');
-    });
-
-    audio.addEventListener('pause', () => {
-      playPauseBtn.classList.remove('playing');
-      sessionStorage.setItem('audio-playing', 'false');
-    });
-
-    loadFromSession();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
