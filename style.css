@@ -1,214 +1,3 @@
-:root {
-  --player-height: 56px;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
-  background: #f5f5f5;
-}
-
-header {
-  height: var(--player-height);
-  line-height: var(--player-height);
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 0;
-}
-
-.content {
-  padding: 24px;
-  max-width: 1280px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 24px;
-}
-
-.card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-}
-
-.card img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-}
-
-.card-content {
-  padding: 24px;
-  flex-grow: 1;
-}
-
-.media-player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: var(--player-height);
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  box-sizing: border-box;
-  z-index: 999;
-  border-radius: 16px 16px 0 0;
-}
-
-.theme-toggle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 20px;
-  color: #ffa500;
-}
-
-.dark-theme {
-  background-color: #121212;
-  color: #f0f0f0;
-}
-
-.dark-theme .media-player {
-  background: #1e1e1e;
-  box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.05);
-}
-
-.dark-theme .title {
-  color: #f0f0f0;
-}
-
-.dark-theme .artist {
-  color: #ccc;
-}
-
-.pause-button {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: none;
-  border: 2px solid #007bff;
-  outline: none;
-  box-shadow: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  font-size: 18px;
-  color: #007bff;
-}
-
-.pause-button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.pause-button.playing::before {
-  content: "❚❚";
-}
-
-.pause-button:not(.playing)::before {
-  content: "▶";
-}
-
-.pause-button svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-  pointer-events: none;
-}
-
-.pause-button circle.bg {
-  fill: none;
-  stroke: #e0e0e0;
-  stroke-width: 3;
-}
-
-.pause-button circle.progress {
-  fill: none;
-  stroke: #007bff;
-  stroke-width: 3;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.1s linear;
-}
-
-.dark-theme .pause-button {
-  border-color: #ffa500;
-  color: #ffa500;
-}
-
-.dark-theme .pause-button circle.progress {
-  stroke: #ffa500;
-}
-
-.player-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.player-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.album-art {
-  width: 44px;
-  height: 44px;
-  border-radius: 5px;
-  background-image: url('album-thumbnail.jpg');
-  background-size: cover;
-  background-position: center;
-  flex-shrink: 0;
-}
-
-.song-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
-
-.title {
-  font-size: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.artist {
-  font-size: 13px;
-  color: #666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 @media (max-width: 768px) {
   .content {
     grid-template-columns: 1fr;
@@ -220,8 +9,8 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 12px;
-    gap: 12px;
+    padding: 16px;
+    gap: 16px;
     height: auto;
     box-sizing: border-box;
     border-radius: 16px 16px 0 0;
@@ -232,7 +21,7 @@ header {
     min-width: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     overflow: hidden;
   }
 
@@ -240,19 +29,27 @@ header {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: nowrap;
   }
 
   .pause-button,
   .theme-toggle {
     flex-shrink: 0;
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
   }
 
   .pause-button svg {
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .pause-button::before {
+    font-size: 22px;
+    line-height: 1;
+    position: relative;
+    z-index: 2;
   }
 }
