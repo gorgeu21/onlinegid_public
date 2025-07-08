@@ -354,48 +354,93 @@
   <audio id="audio" src="audio/audio.mp3"></audio>
 
   <script>
-    const toggle = document.getElementById('themeToggle');
+  const toggle = document.getElementById('themeToggle');
+  const audio = document.getElementById('audio');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const progressCircle = playPauseBtn?.querySelector('circle.progress');
+  const radius = 20;
+  const circumference = 2 * Math.PI * radius;
 
-// Инициализируем иконку при загрузке
-toggle.innerHTML = '☼';
-
-toggle.addEventListener('click', () => {
-  const isDark = document.body.classList.toggle('dark-theme');
-  toggle.innerHTML = isDark ? '◐' : '☼'; // Меняем иконку: светлая ☼ ↔ тёмная ◐
-});
-
-    const audio = document.getElementById('audio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressCircle = playPauseBtn.querySelector('circle.progress');
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
-
+  if (progressCircle) {
     progressCircle.style.strokeDasharray = `${circumference}`;
     progressCircle.style.strokeDashoffset = `${circumference}`;
+  }
 
-    function updateProgress() {
-      if (audio.duration) {
-        const percent = audio.currentTime / audio.duration;
-        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
-      }
+  function updateProgress() {
+    if (audio && audio.duration && progressCircle) {
+      const percent = audio.currentTime / audio.duration;
+      progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+    }
+  }
+
+  function saveAudioState() {
+    sessionStorage.setItem('audio-time', audio.currentTime);
+    sessionStorage.setItem('audio-playing', !audio.paused);
+  }
+
+  function restoreAudioState() {
+    const savedTime = parseFloat(sessionStorage.getItem('audio-time'));
+    const isPlaying = sessionStorage.getItem('audio-playing') === 'true';
+
+    if (!isNaN(savedTime)) {
+      audio.currentTime = savedTime;
     }
 
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused || audio.ended) {
-        audio.play().then(() => {
-          playPauseBtn.classList.add('playing');
-        }).catch(console.error);
-      } else {
-        audio.pause();
-        playPauseBtn.classList.remove('playing');
-      }
-    });
+    if (isPlaying) {
+      audio.play().then(() => {
+        playPauseBtn?.classList.add('playing');
+      }).catch(() => {});
+    } else {
+      playPauseBtn?.classList.remove('playing');
+    }
+  }
 
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', () => {
+  // Тема
+  toggle?.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark-theme');
+    toggle.innerHTML = isDark ? '◐' : '☼';
+  });
+
+  toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
+
+  // Восстановление состояния
+  window.addEventListener('DOMContentLoaded', () => {
+    restoreAudioState();
+  });
+
+  // Play/Pause
+  playPauseBtn?.addEventListener('click', () => {
+    if (audio.paused || audio.ended) {
+      audio.play().then(() => {
+        playPauseBtn.classList.add('playing');
+      }).catch(console.error);
+    } else {
+      audio.pause();
       playPauseBtn.classList.remove('playing');
-      progressCircle.style.strokeDashoffset = `${circumference}`;
-    });
-  </script>
+    }
+  });
+
+  // Обновление
+  audio.addEventListener('timeupdate', () => {
+    updateProgress();
+    saveAudioState();
+  });
+
+  audio.addEventListener('ended', () => {
+    playPauseBtn?.classList.remove('playing');
+    progressCircle?.style.setProperty('stroke-dashoffset', `${circumference}`);
+    sessionStorage.setItem('audio-playing', 'false');
+  });
+
+  audio.addEventListener('pause', () => {
+    playPauseBtn?.classList.remove('playing');
+    sessionStorage.setItem('audio-playing', 'false');
+  });
+
+  audio.addEventListener('play', () => {
+    playPauseBtn?.classList.add('playing');
+    sessionStorage.setItem('audio-playing', 'true');
+  });
+</script>
 </body>
 </html>
