@@ -12,7 +12,7 @@ body {
 header {
   height: var(--player-height);
   line-height: var(--player-height);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
   background: #fff;
@@ -21,12 +21,12 @@ header {
 }
 
 .content {
-  padding: 28px;
+  padding: 24px;
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 24px;
 }
 
 .card {
@@ -42,10 +42,11 @@ header {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  display: block;
 }
 
 .card-content {
-  padding: 28px;
+  padding: 24px;
   flex-grow: 1;
 }
 
@@ -59,7 +60,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 16px;
   box-sizing: border-box;
   z-index: 999;
   border-radius: 16px 16px 0 0;
@@ -135,6 +136,7 @@ header {
   width: 100%;
   height: 100%;
   transform: rotate(-90deg);
+  pointer-events: none;
 }
 
 .pause-button circle.bg {
@@ -164,12 +166,15 @@ header {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .player-content {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .album-art {
@@ -186,12 +191,38 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
 }
 
 .title {
   font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .artist {
   font-size: 13px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .media-player {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px;
+  }
+
+  .player-controls {
+    margin-top: 10px;
+  }
 }
