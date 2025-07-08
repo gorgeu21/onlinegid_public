@@ -123,6 +123,14 @@ header {
   z-index: 2;
 }
 
+.pause-button.playing::before {
+  content: "❚❚";
+}
+
+.pause-button:not(.playing)::before {
+  content: "▶";
+}
+
 .pause-button svg {
   position: absolute;
   top: 0;
@@ -148,7 +156,6 @@ header {
   transition: stroke-dashoffset 0.1s linear;
 }
 
-/* Optional: Dark theme color fix */
 .dark-theme .pause-button {
   color: #ffa500;
 }
@@ -156,7 +163,6 @@ header {
 .dark-theme .pause-button circle.progress {
   stroke: #ffa500;
 }
-
 
 .player-controls {
   display: flex;
@@ -258,5 +264,13 @@ header {
     line-height: 1;
     position: relative;
     z-index: 2;
+  }
+
+  .pause-button.playing::before {
+    content: "❚❚";
+  }
+
+  .pause-button:not(.playing)::before {
+    content: "▶";
   }
 }
