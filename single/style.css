@@ -292,4 +292,51 @@ header {
   .pause-button::before {
     font-size: 22px;
   }
+  .card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.card {
+  background: var(--card-bg, #fff);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.player-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--player-bg, #f8f8f8);
+  padding: 10px 16px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #ddd;
+}
+
+.home-icon {
+  width: 36px;
+  height: 36px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+}
+
 }
