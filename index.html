@@ -136,24 +136,21 @@
       transform-origin: center;
     }
 
-    .pause-button .icon path {
-      fill: #007bff;
+    .pause-button .icon .play-icon,
+    .pause-button .icon .pause-icon {
+      display: none;
     }
 
-    .pause-button .play-icon {
+    .pause-button:not(.paused) .play-icon {
       display: block;
-    }
-
-    .pause-button .pause-icon {
-      display: none;
-    }
-
-    .pause-button.paused .play-icon {
-      display: none;
     }
 
     .pause-button.paused .pause-icon {
       display: block;
+    }
+
+    .pause-button .icon path {
+      fill: #007bff;
     }
 
     .player-controls {
@@ -242,7 +239,7 @@
     </div>
   </div>
 
-  <audio id="audio" src="audio/audio.mp3"></audio>
+  <audio id="audio" src="/audio/audio.mp3"></audio>
 
   <script>
     const toggle = document.getElementById('themeToggle');
@@ -269,8 +266,9 @@
 
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
-        audio.play().catch(err => console.log(err));
-        playPauseBtn.classList.add('paused');
+        audio.play().then(() => {
+          playPauseBtn.classList.add('paused');
+        }).catch(err => console.log(err));
       } else {
         audio.pause();
         playPauseBtn.classList.remove('paused');
