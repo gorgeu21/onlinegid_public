@@ -87,4 +87,127 @@ header {
   .content {
     padding: 16px;
   }
+  .media-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+  border-radius: 16px 16px 0 0;
+  z-index: 999;
+}
+
+.player-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.album-art {
+  width: 44px;
+  height: 44px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-info .title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.song-info .artist {
+  font-size: 13px;
+  color: #666;
+}
+
+.pause-button {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #007bff;
+}
+
+.pause-button::before {
+  position: relative;
+  z-index: 2;
+}
+
+.pause-button.playing::before {
+  content: "❚❚";
+}
+
+.pause-button:not(.playing)::before {
+  content: "▶";
+}
+
+.pause-button svg {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+  z-index: 1;
+}
+
+.pause-button circle.bg {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 3;
+}
+
+.pause-button circle.progress {
+  fill: none;
+  stroke: #007bff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ffa500;
+  cursor: pointer;
+}
+
+.dark-theme .media-player {
+  background: #1e1e1e;
+}
+
+.dark-theme .song-info .title {
+  color: #f0f0f0;
+}
+
+.dark-theme .song-info .artist {
+  color: #ccc;
+}
+
+.dark-theme .pause-button {
+  color: #ffa500;
+}
+
+.dark-theme .pause-button circle.progress {
+  stroke: #ffa500;
+}
 }
