@@ -20,7 +20,7 @@
     header {
       height: var(--player-height);
       line-height: var(--player-height);
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
       text-align: center;
       background: #fff;
@@ -165,6 +165,14 @@
       align-items: center;
       gap: 10px;
     }
+
+    .title {
+      font-size: 16px;
+    }
+
+    .artist {
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
@@ -212,8 +220,8 @@
     <div class="player-content">
       <div class="album-art" style="width: 44px; height: 44px; background:#ccc; border-radius:5px;"></div>
       <div class="song-info">
-        <div class="title" style="font-size: 20px;">Something About You</div>
-        <div class="artist" style="font-size: 16px;">Majid Jordan</div>
+        <div class="title">Something About You</div>
+        <div class="artist">Majid Jordan</div>
       </div>
     </div>
     <div class="player-controls">
@@ -253,9 +261,10 @@
     }
 
     playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(console.error);
-        playPauseBtn.classList.add('playing');
+      if (audio.paused || audio.ended) {
+        audio.play().then(() => {
+          playPauseBtn.classList.add('playing');
+        }).catch(console.error);
       } else {
         audio.pause();
         playPauseBtn.classList.remove('playing');
