@@ -220,16 +220,20 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 12px;
     gap: 12px;
+    height: auto;
+    box-sizing: border-box;
+    border-radius: 16px 16px 0 0;
   }
 
   .player-content {
-    flex: 1 1 auto;
+    flex: 1 1 60%;
     min-width: 0;
     display: flex;
     align-items: center;
     gap: 12px;
+    overflow: hidden;
   }
 
   .player-controls {
@@ -237,11 +241,18 @@ header {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: nowrap;
   }
 
   .pause-button,
   .theme-toggle {
     flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+  }
+
+  .pause-button svg {
+    width: 44px;
+    height: 44px;
   }
 }
-
