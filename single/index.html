@@ -2,45 +2,48 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Лента</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Аудиогид</title>
+  <link href="style.css" rel="stylesheet" />
+  <script>
+    function goToSingle(title, description) {
+      localStorage.setItem('title', title);
+      localStorage.setItem('description', description);
+      window.location.href = 'single.html';
+    }
+  </script>
 </head>
 <body>
-  <header>Музыкальные новости</header>
-
-  <main class="content">
-    <div class="card">
-      <img src="cover/news1.jpg" alt="Обложка" />
-      <h2>Arctic Monkeys — Новый альбом</h2>
-      <p>Группа выпустила долгожданный релиз с экспериментальным звучанием.</p>
+  <main class="chat-window">
+    <!-- Лента карточек -->
+    <div class="card-list">
+      <div class="card" onclick="goToSingle('Экспонат 1', 'Описание 1')">
+        <h2>Экспонат 1</h2>
+        <p>Описание 1</p>
+      </div>
+      <div class="card" onclick="goToSingle('Экспонат 2', 'Описание 2')">
+        <h2>Экспонат 2</h2>
+        <p>Описание 2</p>
+      </div>
+      <div class="card" onclick="goToSingle('Экспонат 3', 'Описание 3')">
+        <h2>Экспонат 3</h2>
+        <p>Описание 3</p>
+      </div>
+      <!-- Добавь больше карточек по желанию -->
     </div>
-    <!-- можно добавить больше карточек -->
   </main>
 
-  <div class="media-player">
-    <div class="player-content">
-      <a href="single.html" id="coverLink">
-        <div class="album-art" style="background-image: url('cover/news1.jpg');"></div>
-      </a>
-      <div class="song-info">
-        <div class="title">Something About You</div>
-        <div class="artist">Majid Jordan</div>
-      </div>
+  <!-- Плеер -->
+  <footer class="player-bar">
+    <div class="cover-placeholder"></div>
+    <div class="track-info">
+      <h2>Выберите экспонат</h2>
+      <p>Описание появится здесь</p>
     </div>
-    <div class="player-controls">
-      <div class="theme-toggle" id="themeToggle">◐</div>
-      <button class="pause-button" id="playPauseBtn">
-        <svg viewBox="0 0 48 48">
-          <circle class="bg" cx="24" cy="24" r="20" />
-          <circle class="progress" cx="24" cy="24" r="20" />
-        </svg>
-      </button>
+    <div class="controls">
+      <button class="play-button">▶</button>
+      <button class="theme-toggle">🌙</button>
     </div>
-  </div>
-
-  <audio id="audio" src="audio/audio.mp3"></audio>
-
-  <script src="script.js"></script>
+  </footer>
 </body>
 </html>
