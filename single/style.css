@@ -325,7 +325,7 @@ header {
 }
 
 .home-icon svg {
-  width: auto;
+  width: 30px;
   height: 30px;
   color: #007bff;
   transition: transform 0.2s;
