@@ -10,6 +10,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       overflow-x: hidden;
+      background: #f5f5f5;
     }
 
     header {
@@ -17,7 +18,8 @@
       font-size: 28px;
       font-weight: bold;
       text-align: center;
-      background: #f9f9f9;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .cover {
@@ -30,9 +32,31 @@
 
     .content {
       padding: 20px;
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
-      line-height: 1.6;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+      flex-grow: 1;
     }
 
     .media-player {
@@ -129,11 +153,41 @@
   <div class="cover"></div>
 
   <div class="content">
-    <p>Добро пожаловать в поток новостей о любимой музыке! Здесь вы найдёте самые свежие релизы, интервью, обзоры и многое другое.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac hendrerit erat. Etiam fermentum, quam at mattis pretium, purus odio gravida purus, sed lacinia purus libero sit amet quam. Morbi porttitor, orci vitae elementum fermentum, metus lorem ultrices nulla, ac fermentum justo libero at nulla.</p>
-    <p>Integer nec ligula nec justo sagittis euismod. Vestibulum non turpis vitae augue posuere pretium. Aenean porttitor est vel nulla dapibus feugiat. Nunc a finibus sapien, ut facilisis magna. Proin nec urna ut nulla rhoncus lacinia. Quisque eget sapien nec tellus porttitor malesuada.</p>
-    <p>Vestibulum non purus nec leo rhoncus ultricies. Curabitur tristique leo non risus blandit, vitae pharetra nisl vehicula. Duis finibus arcu sed tellus hendrerit, non congue justo scelerisque. Aliquam erat volutpat.</p>
-    <p>(Прокрутите вниз, чтобы увидеть фиксированный плеер в действии.)</p>
+    <div class="card">
+      <img src="cover/news1.jpg" alt="Arctic Monkeys" />
+      <div class="card-content">
+        <h2>Новый альбом от Arctic Monkeys</h2>
+        <p>Группа выпустила свой долгожданный релиз, который уже взорвал чарты по всему миру.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="cover/news2.jpg" alt="Billie Eilish" />
+      <div class="card-content">
+        <h2>Интервью с Billie Eilish</h2>
+        <p>Billie рассказала о своём творческом пути, новой музыке и жизни вне сцены.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="cover/news3.jpg" alt="Top Tracks" />
+      <div class="card-content">
+        <h2>10 лучших треков недели</h2>
+        <p>Отбор самых горячих новинок от музыкальных редакторов — послушайте, прежде чем они станут мейнстримом.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="cover/news4.jpg" alt="Festivals" />
+      <div class="card-content">
+        <h2>Грядущие фестивали лета</h2>
+        <p>Планируете путешествия? Узнайте, где выступят ваши любимые исполнители этим летом.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="cover/news5.jpg" alt="Playlist" />
+      <div class="card-content">
+        <h2>Плейлист месяца</h2>
+        <p>Кураторы подготовили подборку композиций, идеально подходящих для летнего настроения.</p>
+      </div>
+    </div>
   </div>
 
   <div class="media-player">
