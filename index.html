@@ -3,175 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GPT Style Audio Page</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f7f9fb;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .chat-area {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .banner {
-      background: white;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      margin-bottom: 12px;
-    }
-
-    .banner h2 {
-      margin: 0 0 8px;
-      font-size: 18px;
-      color: #222;
-    }
-
-    .banner p {
-      margin: 0;
-      font-size: 15px;
-      color: #555;
-    }
-
-    .player-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: white;
-      padding: 10px 20px;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-      border-top: 1px solid #eee;
-      position: sticky;
-      bottom: 0;
-    }
-
-    .icon-button {
-      background: #f0f0f0;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    #playPauseBtn::before {
-      content: '▶️';
-    }
-
-    #playPauseBtn.pause::before {
-      content: '⏸️';
-    }
-
-    .cover-preview img {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-
-    .track-info {
-      flex-grow: 1;
-      margin-left: 16px;
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 16px;
-      color: #222;
-    }
-
-    .artist {
-      font-size: 14px;
-      color: #777;
-    }
-
-    @media (max-width: 768px) {
-      .banner h2 {
-        font-size: 16px;
-      }
-      .banner p {
-        font-size: 14px;
-      }
-      .title {
-        font-size: 15px;
-      }
-      .artist {
-        font-size: 13px;
-      }
-    }
-  </style>
+  <title>Media Player</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="chat-area">
-    <div class="banner">
-      <h2>Заголовок 1</h2>
-      <p>Описание баннера номер один, краткое и информативное.</p>
-    </div>
-    <div class="banner">
-      <h2>Заголовок 2</h2>
-      <p>Информация о событии или продукте. Кратко, по делу.</p>
-    </div>
-    <div class="banner">
-      <h2>Заголовок 3</h2>
-      <p>Ещё одно описание важного блока на странице.</p>
-    </div>
-    <div class="banner">
-      <h2>Заголовок 4</h2>
-      <p>Новость или описание с возможностью взаимодействия.</p>
-    </div>
-    <div class="banner">
-      <h2>Заголовок 5</h2>
-      <p>Последнее сообщение в ленте. Закрывает основную часть.</p>
-    </div>
-  </main>
 
-  <footer class="player-bar">
-    <button id="playPauseBtn" class="icon-button" title="Play/Pause"></button>
-    <button id="themeToggle" class="icon-button" title="Toggle Theme">🌓</button>
-    <div class="cover-preview" title="Обложка">
-      <img src="main/cover/cover.jpg" alt="cover">
+  <!-- Верхняя часть — пустая -->
+
+  <!-- Нижняя часть — медиаплеер -->
+  <div class="media-player">
+    <div class="player-content">
+      <div class="album-art"></div>
+      <div class="song-info">
+        <div class="title">Something About You</div>
+        <div class="artist">Majid Jordan</div>
+      </div>
     </div>
-    <div class="track-info">
-      <div class="title">Something About You</div>
-      <div class="artist">Majid Jordan</div>
-    </div>
-  </footer>
+    <div class="pause-button"></div>
+  </div>
 
-  <script>
-    const sound = new Howl({
-      src: ['main/audio/audi.mp3'],
-      html5: true,
-    });
-
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    let isPlaying = false;
-
-    playPauseBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        sound.pause();
-        playPauseBtn.classList.remove('pause');
-        playPauseBtn.classList.add('play');
-      } else {
-        sound.play();
-        playPauseBtn.classList.remove('play');
-        playPauseBtn.classList.add('pause');
-      }
-      isPlaying = !isPlaying;
-    });
-  </script>
 </body>
 </html>
