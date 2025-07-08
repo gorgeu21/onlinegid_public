@@ -338,10 +338,14 @@
 
   <script>
     const toggle = document.getElementById('themeToggle');
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      toggle.innerHTML = ''; // не отображаем ☼/◐
-    });
+
+// Инициализируем иконку при загрузке
+toggle.innerHTML = '☼';
+
+toggle.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark-theme');
+  toggle.innerHTML = isDark ? '◐' : '☼'; // Меняем иконку: светлая ☼ ↔ тёмная ◐
+});
 
     const audio = document.getElementById('audio');
     const playPauseBtn = document.getElementById('playPauseBtn');
