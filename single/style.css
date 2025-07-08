@@ -334,8 +334,8 @@ header {
 }
 
 .home-icon svg {
-  width: 28px;
-  height: 28px;
+  width: auto;
+  height: 24px;
   stroke: currentColor;
 }
 
