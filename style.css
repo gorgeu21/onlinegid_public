@@ -104,7 +104,7 @@ header {
   height: 52px;
   border-radius: 50%;
   background: none;
-  border: 1px solid #007bff;
+  border: none;
   outline: none;
   box-shadow: none;
   display: flex;
@@ -114,19 +114,6 @@ header {
   flex-shrink: 0;
   font-size: 22px;
   color: #007bff;
-}
-
-.pause-button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.pause-button.playing::before {
-  content: "❚❚";
-}
-
-.pause-button:not(.playing)::before {
-  content: "▶";
 }
 
 .pause-button::before {
@@ -144,6 +131,7 @@ header {
   height: 52px;
   transform: rotate(-90deg);
   pointer-events: none;
+  z-index: 1;
 }
 
 .pause-button circle.bg {
@@ -160,14 +148,15 @@ header {
   transition: stroke-dashoffset 0.1s linear;
 }
 
+/* Optional: Dark theme color fix */
 .dark-theme .pause-button {
-  border-color: #ffa500;
   color: #ffa500;
 }
 
 .dark-theme .pause-button circle.progress {
   stroke: #ffa500;
 }
+
 
 .player-controls {
   display: flex;
