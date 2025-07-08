@@ -226,7 +226,12 @@
     </div>
     <div class="player-controls">
       <div class="theme-toggle" id="themeToggle">☼</div>
-      <button class="pause-button" id="playPauseBtn">
+<button class="pause-button" id="playPauseBtn">
+  <svg viewBox="0 0 48 48">
+    <circle class="bg" cx="24" cy="24" r="20" />
+    <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+  </svg>
+</button>
         <svg viewBox="0 0 48 48">
           <circle class="bg" cx="24" cy="24" r="20" />
           <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
@@ -237,45 +242,45 @@
 
   <audio id="audio" src="/audio/audio.mp3"></audio>
 
-  <script>
-    const toggle = document.getElementById('themeToggle');
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      toggle.textContent = document.body.classList.contains('dark-theme') ? '◐' : '☼';
-    });
+<script>
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    toggle.textContent = document.body.classList.contains('dark-theme') ? '◐' : '☼';
+  });
 
-    const audio = document.getElementById('audio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressCircle = playPauseBtn.querySelector('circle.progress');
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
+  const audio = document.getElementById('audio');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const progressCircle = playPauseBtn.querySelector('circle.progress');
+  const radius = 20;
+  const circumference = 2 * Math.PI * radius;
 
-    progressCircle.style.strokeDasharray = `${circumference}`;
-    progressCircle.style.strokeDashoffset = `${circumference}`;
+  progressCircle.style.strokeDasharray = `${circumference}`;
+  progressCircle.style.strokeDashoffset = `${circumference}`;
 
-    function updateProgress() {
-      if (audio.duration) {
-        const percent = audio.currentTime / audio.duration;
-        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
-      }
+  function updateProgress() {
+    if (audio.duration) {
+      const percent = audio.currentTime / audio.duration;
+      progressCircle.style.strokeDashoffset = circumference * (1 - percent);
     }
+  }
 
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused || audio.ended) {
-        audio.play().then(() => {
-          playPauseBtn.classList.add('playing');
-        }).catch(console.error);
-      } else {
-        audio.pause();
-        playPauseBtn.classList.remove('playing');
-      }
-    });
-
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', () => {
+  playPauseBtn.addEventListener('click', () => {
+    if (audio.paused || audio.ended) {
+      audio.play().then(() => {
+        playPauseBtn.classList.add('playing');
+      }).catch(console.error);
+    } else {
+      audio.pause();
       playPauseBtn.classList.remove('playing');
-      progressCircle.style.strokeDashoffset = `${circumference}`;
-    });
-  </script>
+    }
+  });
+
+  audio.addEventListener('timeupdate', updateProgress);
+  audio.addEventListener('ended', () => {
+    playPauseBtn.classList.remove('playing');
+    progressCircle.style.strokeDashoffset = `${circumference}`;
+  });
+</script>
 </body>
 </html>
