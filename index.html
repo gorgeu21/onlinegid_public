@@ -6,13 +6,53 @@
   <title>Media Player</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      background: #f9f9f9;
+    }
+
+    .cover {
+      width: 100%;
+      height: 300px;
+      background-image: url('cover/cover.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .content {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
     .media-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       height: 80px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-sizing: border-box;
+      z-index: 999;
     }
 
     .theme-toggle {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: none;
       border: none;
@@ -20,7 +60,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 20px;
       color: #ffa500;
       margin-left: 10px;
     }
@@ -84,6 +124,18 @@
   </style>
 </head>
 <body>
+  <header>Музыкальные новости</header>
+
+  <div class="cover"></div>
+
+  <div class="content">
+    <p>Добро пожаловать в поток новостей о любимой музыке! Здесь вы найдёте самые свежие релизы, интервью, обзоры и многое другое.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac hendrerit erat. Etiam fermentum, quam at mattis pretium, purus odio gravida purus, sed lacinia purus libero sit amet quam. Morbi porttitor, orci vitae elementum fermentum, metus lorem ultrices nulla, ac fermentum justo libero at nulla.</p>
+    <p>Integer nec ligula nec justo sagittis euismod. Vestibulum non turpis vitae augue posuere pretium. Aenean porttitor est vel nulla dapibus feugiat. Nunc a finibus sapien, ut facilisis magna. Proin nec urna ut nulla rhoncus lacinia. Quisque eget sapien nec tellus porttitor malesuada.</p>
+    <p>Vestibulum non purus nec leo rhoncus ultricies. Curabitur tristique leo non risus blandit, vitae pharetra nisl vehicula. Duis finibus arcu sed tellus hendrerit, non congue justo scelerisque. Aliquam erat volutpat.</p>
+    <p>(Прокрутите вниз, чтобы увидеть фиксированный плеер в действии.)</p>
+  </div>
+
   <div class="media-player">
     <div class="player-content">
       <div class="album-art" style="width: 50px; height: 50px;"></div>
