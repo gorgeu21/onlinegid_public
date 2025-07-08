@@ -2,42 +2,41 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Материал</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Экспонат</title>
+  <link href="style.css" rel="stylesheet" />
+  <script>
+    window.onload = () => {
+      document.querySelector('.track-title').innerText = localStorage.getItem('title') || 'Экспонат';
+      document.querySelector('.track-description').innerText = localStorage.getItem('description') || 'Описание';
+    };
+  </script>
 </head>
 <body>
-  <header>Просмотр</header>
-
-  <main class="single-content">
-  <img src="cover/news1.jpg" alt="Arctic Monkeys" />
-  <h1>Новый альбом от Arctic Monkeys</h1>
-  <p>Подробный текст статьи или описание новости...</p>
-</main>
-
-  <div class="media-player">
-    <div class="player-content">
-      <a href="index.html">
-        <div class="album-art home-icon">🏠</div>
-      </a>
-      <div class="song-info">
-        <div class="title">Something About You</div>
-        <div class="artist">Majid Jordan</div>
-      </div>
+  <main class="chat-window">
+    <div class="banner">
+      <h2 class="track-title">Экспонат</h2>
+      <p class="track-description">Описание</p>
     </div>
-    <div class="player-controls">
-      <div class="theme-toggle" id="themeToggle">◐</div>
-      <button class="pause-button" id="playPauseBtn">
-        <svg viewBox="0 0 48 48">
-          <circle class="bg" cx="24" cy="24" r="20" />
-          <circle class="progress" cx="24" cy="24" r="20" />
-        </svg>
-      </button>
+  </main>
+
+  <!-- Плеер с иконкой "домой" вместо обложки -->
+  <footer class="player-bar">
+    <a href="index.html" class="home-icon" title="Назад">
+      <!-- Минималистичная иконка "домой" (в стиле Lucide) -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h6m8-11v10a1 1 0 01-1 1h-6" />
+      </svg>
+    </a>
+    <div class="track-info">
+      <h2 class="track-title">Экспонат</h2>
+      <p class="track-description">Описание</p>
     </div>
-  </div>
-
-  <audio id="audio" src="audio/audio.mp3"></audio>
-
-  <script src="script.js"></script>
+    <div class="controls">
+      <button class="play-button">▶</button>
+      <button class="theme-toggle">🌙</button>
+    </div>
+  </footer>
 </body>
 </html>
