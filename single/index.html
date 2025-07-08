@@ -3,54 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Музыкальные новости</title>
+  <title>Media Player</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Стиль для ссылки-обёртки */
+    .album-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
 </head>
 <body>
   <header>Музыкальные новости</header>
 
   <main class="content">
+    <!-- Лента карточек -->
     <div class="card">
       <img src="cover/news1.jpg" alt="Arctic Monkeys" />
       <div class="card-content">
         <h2>Новый альбом от Arctic Monkeys</h2>
-        <p>Группа выпустила долгожданный релиз, уже покоривший чарты по всему миру.</p>
+        <p>Группа выпустила свой долгожданный релиз, который уже взорвал чарты по всему миру.</p>
       </div>
     </div>
     <div class="card">
       <img src="cover/news2.jpg" alt="Billie Eilish" />
       <div class="card-content">
         <h2>Интервью с Billie Eilish</h2>
-        <p>Billie рассказала о творчестве, новой музыке и жизни вне сцены.</p>
+        <p>Billie рассказала о своём творческом пути, новой музыке и жизни вне сцены.</p>
       </div>
     </div>
-    <!-- Добавь другие карточки по аналогии -->
+    <div class="card">
+      <img src="cover/news3.jfif" alt="Top Tracks" />
+      <div class="card-content">
+        <h2>10 лучших треков недели</h2>
+        <p>Отбор самых горячих новинок от музыкальных редакторов — послушайте, прежде чем они станут мейнстримом.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="cover/news4.jfif" alt="Festivals" />
+      <div class="card-content">
+        <h2>Грядущие фестивали лета</h2>
+        <p>Планируете путешествия? Узнайте, где выступят ваши любимые исполнители этим летом.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="cover/news5.jpg" alt="Playlist" />
+      <div class="card-content">
+        <h2>Плейлист месяца</h2>
+        <p>Кураторы подготовили подборку композиций, идеально подходящих для летнего настроения.</p>
+      </div>
+    </div>
   </main>
 
-  <footer class="media-player">
+  <div class="media-player">
     <div class="player-content">
-      <div class="album-art" style="background-image: url('cover/news1.jpg');"></div>
-      <div class="song-info">
-        <div class="title">Something About You</div>
-        <div class="artist">Majid Jordan</div>
-      </div>
+      <a href="single.html" class="album-link">
+        <div class="album-art"></div>
+        <div class="song-info">
+          <div class="title">Something About You</div>
+          <div class="artist">Majid Jordan</div>
+        </div>
+      </a>
     </div>
     <div class="player-controls">
-      <button class="theme-toggle" id="themeToggle">☼</button>
+      <div class="theme-toggle" id="themeToggle">☼</div>
       <button class="pause-button" id="playPauseBtn">
         <svg viewBox="0 0 48 48">
           <circle class="bg" cx="24" cy="24" r="20" />
-          <circle class="progress" cx="24" cy="24" r="20"
-                  stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
         </svg>
       </button>
     </div>
-  </footer>
+  </div>
 
   <audio id="audio" src="audio/audio.mp3"></audio>
 
   <script>
     const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-theme');
+      toggle.innerHTML = isDark ? '◐' : '☼';
+    });
+    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
+
     const audio = document.getElementById('audio');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const progressCircle = playPauseBtn.querySelector('circle.progress');
@@ -67,31 +105,6 @@
       }
     }
 
-    function saveAudioState() {
-      sessionStorage.setItem('audio-time', audio.currentTime);
-      sessionStorage.setItem('audio-playing', !audio.paused);
-    }
-
-    function restoreAudioState() {
-      const savedTime = parseFloat(sessionStorage.getItem('audio-time'));
-      const isPlaying = sessionStorage.getItem('audio-playing') === 'true';
-      if (!isNaN(savedTime)) audio.currentTime = savedTime;
-      if (isPlaying) {
-        audio.play().then(() => {
-          playPauseBtn.classList.add('playing');
-        }).catch(() => {});
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', restoreAudioState);
-
-    toggle.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      toggle.innerHTML = isDark ? '◐' : '☼';
-    });
-
-    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
-
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused || audio.ended) {
         audio.play().then(() => {
@@ -103,25 +116,10 @@
       }
     });
 
-    audio.addEventListener('timeupdate', () => {
-      updateProgress();
-      saveAudioState();
-    });
-
+    audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('ended', () => {
       playPauseBtn.classList.remove('playing');
       progressCircle.style.strokeDashoffset = `${circumference}`;
-      sessionStorage.setItem('audio-playing', 'false');
-    });
-
-    audio.addEventListener('pause', () => {
-      playPauseBtn.classList.remove('playing');
-      sessionStorage.setItem('audio-playing', 'false');
-    });
-
-    audio.addEventListener('play', () => {
-      playPauseBtn.classList.add('playing');
-      sessionStorage.setItem('audio-playing', 'true');
     });
   </script>
 </body>
