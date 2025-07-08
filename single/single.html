@@ -2,278 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Player — Single</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Single View</title>
   <style>
-    :root {
-      --player-height: 56px;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      overflow-x: hidden;
-      background: #f5f5f5;
-    }
-
-    header {
-      height: var(--player-height);
-      line-height: var(--player-height);
-      font-size: 18px;
-      font-weight: bold;
-      text-align: center;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .single-content {
-      padding: 24px;
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .single-content img {
-      width: 100%;
-      border-radius: 12px;
-      object-fit: cover;
-      aspect-ratio: 16/9;
-    }
-
-    .single-content h1 {
-      font-size: 24px;
-      margin: 0;
-      color: #333;
-    }
-
-    .single-content p {
-      font-size: 16px;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .media-player {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: var(--player-height);
-      background: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      box-sizing: border-box;
-      z-index: 999;
-      border-radius: 16px 16px 0 0;
-      box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 20px;
-      color: #ffa500;
-    }
-
-    .dark-theme {
-      background-color: #121212;
-      color: #f0f0f0;
-    }
-
-    .dark-theme header {
-      background-color: #1e1e1e;
-      color: #f0f0f0;
-    }
-
-    .dark-theme .single-content h1 {
-      color: #ffffff;
-    }
-
-    .dark-theme .single-content p {
-      color: #cccccc;
-    }
-
-    .pause-button {
-      position: relative;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      outline: none;
-      box-shadow: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      font-size: 22px;
-      color: #007bff;
-    }
-
-    .pause-button::before {
-      font-size: 22px;
-      line-height: 1;
-      position: relative;
-      z-index: 2;
-    }
-
-    .pause-button.playing::before {
-      content: "❚❚";
-    }
-
-    .pause-button:not(.playing)::before {
-      content: "▶";
-    }
-
-    .pause-button svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 52px;
-      height: 52px;
-      transform: rotate(-90deg);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .pause-button circle.bg {
-      fill: none;
-      stroke: #e0e0e0;
-      stroke-width: 3;
-    }
-
-    .pause-button circle.progress {
-      fill: none;
-      stroke: #007bff;
-      stroke-width: 3;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 0.1s linear;
-    }
-
-    .dark-theme .pause-button {
-      color: #ffa500;
-    }
-
-    .dark-theme .pause-button circle.progress {
-      stroke: #ffa500;
-    }
-
-    .player-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .player-content {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    .album-art {
-      width: 44px;
-      height: 44px;
-      border-radius: 5px;
-      background-image: url('cover/news1.jpg');
-      background-size: cover;
-      background-position: center;
-      flex-shrink: 0;
-    }
-
-    .song-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-width: 0;
-    }
-
-    .title {
-      font-size: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .artist {
-      font-size: 13px;
-      color: #666;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .dark-theme .title {
-      color: #f0f0f0;
-    }
-
-    .dark-theme .artist {
-      color: #ccc;
-    }
-
-    @media (max-width: 768px) {
-      .media-player {
-        flex-wrap: wrap;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px;
-        gap: 16px;
-        height: auto;
-        box-sizing: border-box;
-        border-radius: 16px 16px 0 0;
-      }
-
-      .player-content {
-        flex: 1 1 60%;
-        min-width: 0;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        overflow: hidden;
-      }
-
-      .player-controls {
-        flex: 0 0 auto;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: nowrap;
-      }
-
-      .pause-button,
-      .theme-toggle {
-        flex-shrink: 0;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-      }
-
-      .pause-button svg {
-        width: 52px;
-        height: 52px;
-      }
-
-      .pause-button::before {
-        font-size: 22px;
-        line-height: 1;
-        position: relative;
-        z-index: 2;
-      }
-    }
+    /* Вставь сюда CSS как раньше, не забудь подменить обложку на иконку */
   </style>
 </head>
 <body>
@@ -282,12 +14,16 @@
   <main class="single-content">
     <img src="cover/news1.jpg" alt="Arctic Monkeys" />
     <h1>Новый альбом от Arctic Monkeys</h1>
-    <p>Группа выпустила свой долгожданный релиз, который уже взорвал чарты по всему миру. Альбом сочетает в себе узнаваемое звучание коллектива и новые музыкальные эксперименты, покоряющие сердца фанатов по всему миру.</p>
+    <p>Группа выпустила долгожданный релиз с узнаваемым звучанием и экспериментами.</p>
   </main>
 
   <div class="media-player">
     <div class="player-content">
-      <div class="album-art"></div>
+      <a href="index.html" id="backHome">
+        <div class="album-art" style="background: none; font-size: 20px; color: #555; display:flex;align-items:center;justify-content:center;">
+          🏠
+        </div>
+      </a>
       <div class="song-info">
         <div class="title">Something About You</div>
         <div class="artist">Majid Jordan</div>
@@ -298,7 +34,7 @@
       <button class="pause-button" id="playPauseBtn">
         <svg viewBox="0 0 48 48">
           <circle class="bg" cx="24" cy="24" r="20" />
-          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+          <circle class="progress" cx="24" cy="24" r="20" />
         </svg>
       </button>
     </div>
@@ -308,21 +44,17 @@
 
   <script>
     const toggle = document.getElementById('themeToggle');
-    function updateThemeIcon() {
-      toggle.innerHTML = document.body.classList.contains('dark-theme') ? '☼' : '◐';
-    }
     toggle.addEventListener('click', () => {
       document.body.classList.toggle('dark-theme');
-      updateThemeIcon();
+      toggle.innerHTML = document.body.classList.contains('dark-theme') ? '☼' : '◐';
     });
-    updateThemeIcon();
+    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '☼' : '◐';
 
     const audio = document.getElementById('audio');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const progressCircle = playPauseBtn.querySelector('circle.progress');
     const radius = 20;
     const circumference = 2 * Math.PI * radius;
-
     progressCircle.style.strokeDasharray = `${circumference}`;
     progressCircle.style.strokeDashoffset = `${circumference}`;
 
@@ -333,22 +65,39 @@
       }
     }
 
+    function loadFromSession() {
+      const time = sessionStorage.getItem('audio-time');
+      const isPlaying = sessionStorage.getItem('audio-playing');
+      if (time) audio.currentTime = parseFloat(time);
+      if (isPlaying === 'true') audio.play();
+    }
+
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused || audio.ended) {
-        audio.play().then(() => {
-          playPauseBtn.classList.add('playing');
-        }).catch(console.error);
+        audio.play();
+        playPauseBtn.classList.add('playing');
       } else {
         audio.pause();
         playPauseBtn.classList.remove('playing');
       }
     });
 
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', () => {
-      playPauseBtn.classList.remove('playing');
-      progressCircle.style.strokeDashoffset = `${circumference}`;
+    audio.addEventListener('timeupdate', () => {
+      updateProgress();
+      sessionStorage.setItem('audio-time', audio.currentTime);
     });
+
+    audio.addEventListener('play', () => {
+      playPauseBtn.classList.add('playing');
+      sessionStorage.setItem('audio-playing', 'true');
+    });
+
+    audio.addEventListener('pause', () => {
+      playPauseBtn.classList.remove('playing');
+      sessionStorage.setItem('audio-playing', 'false');
+    });
+
+    loadFromSession();
   </script>
 </body>
 </html>
