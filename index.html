@@ -6,19 +6,23 @@
   <title>Media Player</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    .media-player {
+      height: 80px;
+    }
+
     .theme-toggle {
       width: 36px;
       height: 36px;
       border-radius: 50%;
       background: none;
-      border: 2px solid #ffa500;
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      margin-right: 10px;
-      font-size: 14px;
+      font-size: 16px;
       color: #ffa500;
+      margin-left: 10px;
     }
 
     .dark-theme {
@@ -49,8 +53,8 @@
     }
 
     .pause-button {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: none;
       border: 2px solid #007bff;
@@ -63,28 +67,35 @@
 
     .pause-button::before {
       content: "❚❚";
-      font-size: 14px;
+      font-size: 16px;
       font-weight: normal;
       color: #007bff;
     }
 
     .dark-theme .theme-toggle {
-      border-color: #ccc;
       color: #ccc;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
   </style>
 </head>
 <body>
   <div class="media-player">
-    <div class="theme-toggle" id="themeToggle">☼</div>
     <div class="player-content">
-      <div class="album-art"></div>
+      <div class="album-art" style="width: 50px; height: 50px;"></div>
       <div class="song-info">
-        <div class="title">Something About You</div>
-        <div class="artist">Majid Jordan</div>
+        <div class="title" style="font-size: 22px;">Something About You</div>
+        <div class="artist" style="font-size: 18px;">Majid Jordan</div>
       </div>
     </div>
-    <div class="pause-button"></div>
+    <div class="player-controls">
+      <div class="pause-button"></div>
+      <div class="theme-toggle" id="themeToggle">☼</div>
+    </div>
   </div>
 
   <script>
