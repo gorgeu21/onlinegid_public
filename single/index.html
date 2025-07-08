@@ -17,7 +17,6 @@
         <p>Группа выпустила долгожданный релиз, уже покоривший чарты по всему миру.</p>
       </div>
     </div>
-
     <div class="card">
       <img src="cover/news2.jpg" alt="Billie Eilish" />
       <div class="card-content">
@@ -25,30 +24,105 @@
         <p>Billie рассказала о творчестве, новой музыке и жизни вне сцены.</p>
       </div>
     </div>
-
-    <div class="card">
-      <img src="cover/news3.jpg" alt="Top Tracks" />
-      <div class="card-content">
-        <h2>10 лучших треков недели</h2>
-        <p>Горячие новинки по версии музыкальных редакторов.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="cover/news4.jpg" alt="Festivals" />
-      <div class="card-content">
-        <h2>Фестивали лета</h2>
-        <p>Узнай, где и когда пройдут самые жаркие музыкальные события сезона.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="cover/news5.jpg" alt="Playlist" />
-      <div class="card-content">
-        <h2>Плейлист месяца</h2>
-        <p>Треки, идеально подходящие для твоего лета.</p>
-      </div>
-    </div>
+    <!-- Добавь другие карточки по аналогии -->
   </main>
+
+  <footer class="media-player">
+    <div class="player-content">
+      <div class="album-art" style="background-image: url('cover/news1.jpg');"></div>
+      <div class="song-info">
+        <div class="title">Something About You</div>
+        <div class="artist">Majid Jordan</div>
+      </div>
+    </div>
+    <div class="player-controls">
+      <button class="theme-toggle" id="themeToggle">☼</button>
+      <button class="pause-button" id="playPauseBtn">
+        <svg viewBox="0 0 48 48">
+          <circle class="bg" cx="24" cy="24" r="20" />
+          <circle class="progress" cx="24" cy="24" r="20"
+                  stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <audio id="audio" src="audio/audio.mp3"></audio>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const audio = document.getElementById('audio');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressCircle = playPauseBtn.querySelector('circle.progress');
+    const radius = 20;
+    const circumference = 2 * Math.PI * radius;
+
+    progressCircle.style.strokeDasharray = `${circumference}`;
+    progressCircle.style.strokeDashoffset = `${circumference}`;
+
+    function updateProgress() {
+      if (audio.duration) {
+        const percent = audio.currentTime / audio.duration;
+        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+      }
+    }
+
+    function saveAudioState() {
+      sessionStorage.setItem('audio-time', audio.currentTime);
+      sessionStorage.setItem('audio-playing', !audio.paused);
+    }
+
+    function restoreAudioState() {
+      const savedTime = parseFloat(sessionStorage.getItem('audio-time'));
+      const isPlaying = sessionStorage.getItem('audio-playing') === 'true';
+      if (!isNaN(savedTime)) audio.currentTime = savedTime;
+      if (isPlaying) {
+        audio.play().then(() => {
+          playPauseBtn.classList.add('playing');
+        }).catch(() => {});
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', restoreAudioState);
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-theme');
+      toggle.innerHTML = isDark ? '◐' : '☼';
+    });
+
+    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused || audio.ended) {
+        audio.play().then(() => {
+          playPauseBtn.classList.add('playing');
+        }).catch(console.error);
+      } else {
+        audio.pause();
+        playPauseBtn.classList.remove('playing');
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      updateProgress();
+      saveAudioState();
+    });
+
+    audio.addEventListener('ended', () => {
+      playPauseBtn.classList.remove('playing');
+      progressCircle.style.strokeDashoffset = `${circumference}`;
+      sessionStorage.setItem('audio-playing', 'false');
+    });
+
+    audio.addEventListener('pause', () => {
+      playPauseBtn.classList.remove('playing');
+      sessionStorage.setItem('audio-playing', 'false');
+    });
+
+    audio.addEventListener('play', () => {
+      playPauseBtn.classList.add('playing');
+      sessionStorage.setItem('audio-playing', 'true');
+    });
+  </script>
 </body>
 </html>
