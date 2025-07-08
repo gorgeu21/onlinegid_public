@@ -2,140 +2,157 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Player</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Главная</title>
   <style>
-    /* Стиль для ссылки-обёртки */
-    .album-link {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      color: inherit;
-    }
-    /* Карточки стилизованы под single */
-    .card img {
-      border-radius: 12px;
-    }
-    .card-content h2 {
-      font-size: 24px;
-      margin: 0 0 8px 0;
-      color: #333;
-    }
-    .card-content p {
-      font-size: 16px;
-      color: #666;
-      line-height: 1.6;
+    /* Общие стили */
+    body {
       margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    /* Сетка карточек */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* Карточка */
+    .card {
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 1px solid #333;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .card-content {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-content h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .card-content p {
+      font-size: 14px;       /* уменьшенный размер шрифта */
+      color: #bbb;
+      line-height: 1.4;
+      margin: 0;
+      max-height: 3.6em;     /* примерно 2.5 строки */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* обрезка текста после 2 строк */
+      -webkit-box-orient: vertical;
+    }
+
+    /* Кнопка */
+    .card-content a {
+      margin-top: auto;
+      text-decoration: none;
+      color: #4fc3f7;
+      font-weight: 600;
+      align-self: flex-start;
+      transition: color 0.3s ease;
+    }
+
+    .card-content a:hover {
+      color: #81d4fa;
+    }
+
+    /* Адаптив для мелких экранов */
+    @media (max-width: 480px) {
+      .card img {
+        height: 140px;
+      }
+
+      .card-content h3 {
+        font-size: 18px;
+      }
+
+      .card-content p {
+        font-size: 13px;
+        max-height: 3.2em;
+        -webkit-line-clamp: 2;
+      }
     }
   </style>
 </head>
 <body>
-  <header>Музыкальные новости</header>
-
-  <main class="content">
-    <!-- Лента карточек -->
-    <div class="card">
-      <img src="cover/news1.jpg" alt="Arctic Monkeys" />
-      <div class="card-content">
-        <h2>Новый альбом от Arctic Monkeys</h2>
-        <p>Группа выпустила свой долгожданный релиз, который уже взорвал чарты по всему миру.</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="cover/news2.jpg" alt="Billie Eilish" />
-      <div class="card-content">
-        <h2>Интервью с Billie Eilish</h2>
-        <p>Billie рассказала о своём творческом пути, новой музыке и жизни вне сцены.</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="cover/news3.jfif" alt="Top Tracks" />
-      <div class="card-content">
-        <h2>10 лучших треков недели</h2>
-        <p>Отбор самых горячих новинок от музыкальных редакторов — послушайте, прежде чем они станут мейнстримом.</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="cover/news4.jfif" alt="Festivals" />
-      <div class="card-content">
-        <h2>Грядущие фестивали лета</h2>
-        <p>Планируете путешествия? Узнайте, где выступят ваши любимые исполнители этим летом.</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="cover/news5.jpg" alt="Playlist" />
-      <div class="card-content">
-        <h2>Плейлист месяца</h2>
-        <p>Кураторы подготовили подборку композиций, идеально подходящих для летнего настроения.</p>
-      </div>
-    </div>
-  </main>
-
-  <div class="media-player">
-    <div class="player-content">
-      <a href="single.html" class="album-link">
-        <div class="album-art"></div>
-        <div class="song-info">
-          <div class="title">Something About You</div>
-          <div class="artist">Majid Jordan</div>
+  <div class="container">
+    <div class="cards">
+      <div class="card">
+        <img src="https://via.placeholder.com/300x160" alt="Изображение 1" />
+        <div class="card-content">
+          <h3>Заголовок Карточки 1</h3>
+          <p>Это пример текста для карточки, который теперь короче и аккуратно умещается в блок.</p>
+          <a href="#">Подробнее</a>
         </div>
-      </a>
-    </div>
-    <div class="player-controls">
-      <div class="theme-toggle" id="themeToggle">☼</div>
-      <button class="pause-button" id="playPauseBtn">
-        <svg viewBox="0 0 48 48">
-          <circle class="bg" cx="24" cy="24" r="20" />
-          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
-        </svg>
-      </button>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x160" alt="Изображение 2" />
+        <div class="card-content">
+          <h3>Заголовок Карточки 2</h3>
+          <p>Ещё один текст с небольшим содержанием, чтобы выглядеть аккуратно и компактно внутри карточки.</p>
+          <a href="#">Подробнее</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x160" alt="Изображение 3" />
+        <div class="card-content">
+          <h3>Заголовок Карточки 3</h3>
+          <p>Краткий текст для демонстрации уменьшенного размера шрифта и ограничения по количеству строк.</p>
+          <a href="#">Подробнее</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x160" alt="Изображение 4" />
+        <div class="card-content">
+          <h3>Заголовок Карточки 4</h3>
+          <p>Текст карточки оптимизирован для удобного просмотра без переноса на следующую строку.</p>
+          <a href="#">Подробнее</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x160" alt="Изображение 5" />
+        <div class="card-content">
+          <h3>Заголовок Карточки 5</h3>
+          <p>Минимальный и аккуратный текст, который гармонично смотрится в карточке.</p>
+          <a href="#">Подробнее</a>
+        </div>
+      </div>
     </div>
   </div>
-
-  <audio id="audio" src="audio/audio.mp3"></audio>
-
-  <script>
-    const toggle = document.getElementById('themeToggle');
-    toggle.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      toggle.innerHTML = isDark ? '◐' : '☼';
-    });
-    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
-
-    const audio = document.getElementById('audio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressCircle = playPauseBtn.querySelector('circle.progress');
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
-
-    progressCircle.style.strokeDasharray = `${circumference}`;
-    progressCircle.style.strokeDashoffset = `${circumference}`;
-
-    function updateProgress() {
-      if (audio.duration) {
-        const percent = audio.currentTime / audio.duration;
-        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
-      }
-    }
-
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused || audio.ended) {
-        audio.play().then(() => {
-          playPauseBtn.classList.add('playing');
-        }).catch(console.error);
-      } else {
-        audio.pause();
-        playPauseBtn.classList.remove('playing');
-      }
-    });
-
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', () => {
-      playPauseBtn.classList.remove('playing');
-      progressCircle.style.strokeDashoffset = `${circumference}`;
-    });
-  </script>
 </body>
 </html>
