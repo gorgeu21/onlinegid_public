@@ -3,40 +3,108 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Экспонат</title>
-  <link href="style.css" rel="stylesheet" />
-  <script>
-    window.onload = () => {
-      document.querySelector('.track-title').innerText = localStorage.getItem('title') || 'Экспонат';
-      document.querySelector('.track-description').innerText = localStorage.getItem('description') || 'Описание';
-    };
-  </script>
+  <title>Single — Экспонат</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .home-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #444;
+      border-radius: 5px;
+      background: none;
+      text-decoration: none;
+    }
+
+    .home-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+    }
+
+    .dark-theme .home-icon {
+      color: #ffa500;
+    }
+  </style>
 </head>
 <body>
-  <main class="chat-window">
-    <div class="banner">
-      <h2 class="track-title">Экспонат</h2>
-      <p class="track-description">Описание</p>
-    </div>
+  <header>Детальный просмотр</header>
+
+  <main class="single-content">
+    <img src="cover/news1.jpg" alt="Arctic Monkeys" />
+    <h1>Новый альбом от Arctic Monkeys</h1>
+    <p>Группа выпустила свой долгожданный релиз, который уже взорвал чарты по всему миру. Альбом сочетает в себе узнаваемое звучание коллектива и новые музыкальные эксперименты, покоряющие сердца фанатов по всему миру.</p>
   </main>
 
-  <!-- Плеер с иконкой "домой" вместо обложки -->
-  <footer class="player-bar">
-    <a href="index.html" class="home-icon" title="Назад">
-      <!-- Минималистичная иконка "домой" (в стиле Lucide) -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h6m8-11v10a1 1 0 01-1 1h-6" />
-      </svg>
-    </a>
-    <div class="track-info">
-      <h2 class="track-title">Экспонат</h2>
-      <p class="track-description">Описание</p>
+  <div class="media-player">
+    <div class="player-content">
+      <a href="index.html" class="home-icon" title="Назад к списку">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12L12 3l9 9" />
+          <path d="M9 21V12h6v9" />
+        </svg>
+      </a>
+      <div class="song-info">
+        <div class="title">Something About You</div>
+        <div class="artist">Majid Jordan</div>
+      </div>
     </div>
-    <div class="controls">
-      <button class="play-button">▶</button>
-      <button class="theme-toggle">🌙</button>
+    <div class="player-controls">
+      <div class="theme-toggle" id="themeToggle">☼</div>
+      <button class="pause-button" id="playPauseBtn">
+        <svg viewBox="0 0 48 48">
+          <circle class="bg" cx="24" cy="24" r="20" />
+          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+        </svg>
+      </button>
     </div>
-  </footer>
+  </div>
+
+  <audio id="audio" src="audio/audio.mp3"></audio>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-theme');
+      toggle.innerHTML = isDark ? '◐' : '☼';
+    });
+    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
+
+    const audio = document.getElementById('audio');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressCircle = playPauseBtn.querySelector('circle.progress');
+    const radius = 20;
+    const circumference = 2 * Math.PI * radius;
+
+    progressCircle.style.strokeDasharray = `${circumference}`;
+    progressCircle.style.strokeDashoffset = `${circumference}`;
+
+    function updateProgress() {
+      if (audio.duration) {
+        const percent = audio.currentTime / audio.duration;
+        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
+      }
+    }
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused || audio.ended) {
+        audio.play().then(() => {
+          playPauseBtn.classList.add('playing');
+        }).catch(console.error);
+      } else {
+        audio.pause();
+        playPauseBtn.classList.remove('playing');
+      }
+    });
+
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', () => {
+      playPauseBtn.classList.remove('playing');
+      progressCircle.style.strokeDashoffset = `${circumference}`;
+    });
+  </script>
 </body>
 </html>
