@@ -324,19 +324,15 @@ header {
   border-top: 1px solid #ddd;
 }
 
-.home-icon {
-  width: 36px;
-  height: 36px;
-  color: #444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .home-icon svg {
-  width: auto;
-  height: 25px;
-  stroke: currentColor;
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  transition: transform 0.2s;
+}
+.home-icon:hover svg {
+  transform: scale(1.1);
+  color: #ccc;
 }
 
 }
