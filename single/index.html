@@ -3,328 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Аудиогид</title>
+  <title>Музыкальные новости</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    :root {
-      --player-height: 56px;
-      --radius: 16px;
-      --transition: 0.3s ease;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: #ffffff;
-      color: #222;
-      transition: var(--transition);
-    }
-
-    .dark-theme {
-      background: #121212;
-      color: #f0f0f0;
-    }
-
-    header {
-      padding: 16px;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .dark-theme header {
-      background: #1e1e1e;
-    }
-
-    .content {
-      padding: 24px;
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card {
-      background: #f9f9f9;
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: var(--transition);
-    }
-
-    .card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      font-size: 16px;
-      margin: 0;
-      color: #555;
-    }
-
-    .dark-theme .card {
-      background: #1e1e1e;
-    }
-
-    .dark-theme .card h2 {
-      color: #ffffff;
-    }
-
-    .dark-theme .card p {
-      color: #cccccc;
-    }
-
-    .media-player {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: var(--player-height);
-      background: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      box-sizing: border-box;
-      z-index: 999;
-      border-radius: var(--radius) var(--radius) 0 0;
-      box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.1);
-      transition: var(--transition);
-    }
-
-    .dark-theme .media-player {
-      background: #1e1e1e;
-    }
-
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 20px;
-      color: #ffa500;
-    }
-
-    .pause-button {
-      position: relative;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 22px;
-      color: #007bff;
-    }
-
-    .dark-theme .pause-button {
-      color: #ffa500;
-    }
-
-    .pause-button::before {
-      font-size: 22px;
-      z-index: 2;
-      position: relative;
-    }
-
-    .pause-button.playing::before {
-      content: "❚❚";
-    }
-
-    .pause-button:not(.playing)::before {
-      content: "▶";
-    }
-
-    .pause-button svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 52px;
-      height: 52px;
-      transform: rotate(-90deg);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .pause-button circle.bg {
-      fill: none;
-      stroke: #e0e0e0;
-      stroke-width: 3;
-    }
-
-    .pause-button circle.progress {
-      fill: none;
-      stroke: #007bff;
-      stroke-width: 3;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 0.1s linear;
-    }
-
-    .dark-theme .pause-button circle.progress {
-      stroke: #ffa500;
-    }
-
-    .player-content {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      min-width: 0;
-    }
-
-    .album-link {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .album-art {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      background-image: url('cover/news1.jpg');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .song-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .song-info .title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .song-info .artist {
-      font-size: 13px;
-      color: #666;
-    }
-
-    .dark-theme .song-info .title {
-      color: #f0f0f0;
-    }
-
-    .dark-theme .song-info .artist {
-      color: #ccc;
-    }
-
-    .player-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-  </style>
 </head>
 <body>
   <header>Музыкальные новости</header>
 
   <main class="content">
     <div class="card">
-      <h2>Новый альбом от Arctic Monkeys</h2>
-      <p>Группа выпустила долгожданный релиз, уже покоривший чарты по всему миру.</p>
+      <img src="cover/news1.jpg" alt="Arctic Monkeys" />
+      <div class="card-content">
+        <h2>Новый альбом от Arctic Monkeys</h2>
+        <p>Группа выпустила долгожданный релиз, уже покоривший чарты по всему миру.</p>
+      </div>
     </div>
+
     <div class="card">
-      <h2>Интервью с Billie Eilish</h2>
-      <p>Billie рассказала о своём творческом пути, новой музыке и жизни вне сцены.</p>
+      <img src="cover/news2.jpg" alt="Billie Eilish" />
+      <div class="card-content">
+        <h2>Интервью с Billie Eilish</h2>
+        <p>Billie рассказала о творчестве, новой музыке и жизни вне сцены.</p>
+      </div>
     </div>
+
     <div class="card">
-      <h2>10 лучших треков недели</h2>
-      <p>Самые горячие новинки от музыкальных редакторов.</p>
+      <img src="cover/news3.jpg" alt="Top Tracks" />
+      <div class="card-content">
+        <h2>10 лучших треков недели</h2>
+        <p>Горячие новинки по версии музыкальных редакторов.</p>
+      </div>
     </div>
+
     <div class="card">
-      <h2>Грядущие фестивали лета</h2>
-      <p>Где выступят ваши любимые исполнители в этом сезоне.</p>
+      <img src="cover/news4.jpg" alt="Festivals" />
+      <div class="card-content">
+        <h2>Фестивали лета</h2>
+        <p>Узнай, где и когда пройдут самые жаркие музыкальные события сезона.</p>
+      </div>
     </div>
+
     <div class="card">
-      <h2>Плейлист месяца</h2>
-      <p>Подборка композиций для летнего настроения от кураторов.</p>
+      <img src="cover/news5.jpg" alt="Playlist" />
+      <div class="card-content">
+        <h2>Плейлист месяца</h2>
+        <p>Треки, идеально подходящие для твоего лета.</p>
+      </div>
     </div>
   </main>
-
-  <div class="media-player">
-    <div class="player-content">
-      <a href="single.html" class="album-link">
-        <div class="album-art"></div>
-        <div class="song-info">
-          <div class="title">Something About You</div>
-          <div class="artist">Majid Jordan</div>
-        </div>
-      </a>
-    </div>
-    <div class="player-controls">
-      <div class="theme-toggle" id="themeToggle">☼</div>
-      <button class="pause-button" id="playPauseBtn">
-        <svg viewBox="0 0 48 48">
-          <circle class="bg" cx="24" cy="24" r="20" />
-          <circle class="progress" cx="24" cy="24" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <audio id="audio" src="audio/audio.mp3"></audio>
-
-  <script>
-    const toggle = document.getElementById('themeToggle');
-    const audio = document.getElementById('audio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressCircle = playPauseBtn.querySelector('circle.progress');
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
-
-    progressCircle.style.strokeDasharray = `${circumference}`;
-    progressCircle.style.strokeDashoffset = `${circumference}`;
-
-    function updateProgress() {
-      if (audio.duration) {
-        const percent = audio.currentTime / audio.duration;
-        progressCircle.style.strokeDashoffset = circumference * (1 - percent);
-      }
-    }
-
-    toggle.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      toggle.innerHTML = isDark ? '◐' : '☼';
-    });
-
-    toggle.innerHTML = document.body.classList.contains('dark-theme') ? '◐' : '☼';
-
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused || audio.ended) {
-        audio.play().then(() => {
-          playPauseBtn.classList.add('playing');
-        }).catch(console.error);
-      } else {
-        audio.pause();
-        playPauseBtn.classList.remove('playing');
-      }
-    });
-
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', () => {
-      playPauseBtn.classList.remove('playing');
-      progressCircle.style.strokeDashoffset = `${circumference}`;
-    });
-  </script>
 </body>
 </html>
